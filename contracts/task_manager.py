@@ -3,6 +3,7 @@ import smartpy as sp
 TokenUtils = sp.io.import_script_from_url("file:utils/token.py")
 Addresses = sp.io.import_script_from_url("file:helpers/addresses.py")
 FA12 = sp.io.import_script_from_url("file:helpers/tokens/fa12.py").FA12
+SizzlerManagerDummy = sp.io.import_script_from_url("file:helpers/dummy/sizzler_manager_dummy.py").SizzlerManagerDummy
 
 
 class Types:
@@ -173,8 +174,6 @@ class TaskManager(sp.Contract):
 
     @sp.entry_point
     def complete_task(self):
-        # TODO: call complete_task_sizzler in SizzlerManager
-
         task = self.data.contract_to_task[sp.sender]
 
         # Pay tip
@@ -191,6 +190,10 @@ class TaskManager(sp.Contract):
             # Reduce tip from available credits
             task.credits = sp.as_nat(task.credits - task.tip)
 
+        # Call complete_task_sizzler in SizzlerManager
+        c = sp.contract(sp.TUnit, self.data.sizzler_manager, "complete_task_sizzler").open_some()
+        sp.transfer(sp.unit, sp.tez(0), c)
+
         # TODO: Call mint_reward in Minter
 
 
@@ -200,7 +203,7 @@ if __name__ == "__main__":
     # add_task
     ###########
 
-    @sp.add_test(name="add_task adds a new task")
+    @sp.add_test(name="add_task - allows governor to add a new task")
     def test():
         scenario = sp.test_scenario()
 
@@ -230,7 +233,7 @@ if __name__ == "__main__":
     # remove_task
     ##############
 
-    @sp.add_test(name="remove_task removes a task and returns the remaining credits")
+    @sp.add_test(name="remove_task - removes a task and returns the remaining credits")
     def test():
         scenario = sp.test_scenario()
 
@@ -269,7 +272,7 @@ if __name__ == "__main__":
     # add_credits & remove_credits
     ###############################
 
-    @sp.add_test(name="add_credits and remove_credits work correctly")
+    @sp.add_test(name="add_credits and remove_credits - correctly modify credits attatched to a task")
     def test():
         scenario = sp.test_scenario()
 
@@ -311,5 +314,40 @@ if __name__ == "__main__":
         # Credits are removed from the task
         scenario.verify(tm.data.contract_to_task[Addresses.CONTRACT].credits == 25)
         scenario.verify(sizzle.data.balances[Addresses.ALICE].balance == 75)
+
+    ################
+    # complete_task
+    ################
+
+    @sp.add_test(name="complete_task - tips the sizzler correctly")
+    def test():
+        scenario = sp.test_scenario()
+
+        sizzle = FA12(Addresses.ADMIN)
+        tm = TaskManager(
+            sizzle_token=sizzle.address,
+            contract_to_task=sp.big_map(
+                l={
+                    Addresses.CONTRACT: sp.record(
+                        metadata="ipfs://data",
+                        owner=Addresses.ALICE,
+                        tip=sp.nat(10),
+                        credits=sp.nat(100),
+                    )
+                }
+            ),
+        )
+
+        scenario += sizzle
+        scenario += tm
+
+        # Mint SZL for TaskManager
+        scenario += sizzle.mint(address=tm.address, value=100).run(sender=Addresses.ADMIN)
+
+        # When complete_task is called with BOB (a sizzler) as source
+        scenario += tm.complete_task().run(sender=Addresses.CONTRACT, source=Addresses.BOB)
+
+        # BOB gets the tip in SZL tokens
+        scenario.verify(sizzle.data.balances[Addresses.BOB].balance == 10)
 
     sp.add_compilation_target("task_manager", TaskManager())

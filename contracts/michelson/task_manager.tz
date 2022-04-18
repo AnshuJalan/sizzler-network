@@ -32,7 +32,7 @@ code
             GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%add_credits
             IF_NONE
               {
-                PUSH int 131; # int : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%add_credits
+                PUSH int 132; # int : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%add_credits
                 FAILWITH;   # FAILED
               }
               {}; # @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%add_credits
@@ -139,7 +139,7 @@ code
                 GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : nat : @storage
                 IF_NONE
                   {
-                    PUSH int 178; # int : nat : @storage
+                    PUSH int 177; # int : nat : @storage
                     FAILWITH;   # FAILED
                   }
                   {}; # @some : nat : @storage
@@ -155,7 +155,7 @@ code
                     GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : @storage
                     IF_NONE
                       {
-                        PUSH int 178; # int : @storage
+                        PUSH int 177; # int : @storage
                         FAILWITH;   # FAILED
                       }
                       {}; # @some : @storage
@@ -169,7 +169,7 @@ code
                     GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : nat : @storage
                     IF_NONE
                       {
-                        PUSH int 178; # int : nat : @storage
+                        PUSH int 177; # int : nat : @storage
                         FAILWITH;   # FAILED
                       }
                       {}; # @some : nat : @storage
@@ -202,7 +202,7 @@ code
                     GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : mutez : @some : list operation : @storage
                     IF_NONE
                       {
-                        PUSH int 178; # int : mutez : @some : list operation : @storage
+                        PUSH int 177; # int : mutez : @some : list operation : @storage
                         FAILWITH;   # FAILED
                       }
                       {}; # @some : mutez : @some : list operation : @storage
@@ -225,7 +225,7 @@ code
                     GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation : @storage
                     IF_NONE
                       {
-                        PUSH int 192; # int : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation : @storage
+                        PUSH int 191; # int : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation : @storage
                         FAILWITH;   # FAILED
                       }
                       {}; # @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation : @storage
@@ -236,7 +236,7 @@ code
                     GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation : @storage
                     IF_NONE
                       {
-                        PUSH int 178; # int : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation : @storage
+                        PUSH int 177; # int : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation : @storage
                         FAILWITH;   # FAILED
                       }
                       {}; # @some : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation : @storage
@@ -248,7 +248,7 @@ code
                     GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : nat : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation
                     IF_NONE
                       {
-                        PUSH int 178; # int : nat : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation
+                        PUSH int 177; # int : nat : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation
                         FAILWITH;   # FAILED
                       }
                       {}; # @some : nat : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation
@@ -257,7 +257,7 @@ code
                     ISNAT;      # option nat : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation
                     IF_NONE
                       {
-                        PUSH int 192; # int : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation
+                        PUSH int 191; # int : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation
                         FAILWITH;   # FAILED
                       }
                       {}; # @some : @some : @sender : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : list operation
@@ -272,6 +272,22 @@ code
                   {
                     NIL operation; # list operation : @storage
                   }; # list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+                SWAP;       # pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager))) : list operation
+                # sp.send(self.data.sizzler_manager, sp.tez(0)) # pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager))) : list operation
+                DUP;        # pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager))) : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager))) : list operation
+                DUG 2;      # pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager))) : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+                GET 6;      # address : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+                CONTRACT %complete_task_sizzler unit; # option (contract unit) : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+                IF_NONE
+                  {
+                    PUSH int 194; # int : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+                PUSH mutez 0; # mutez : @some : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+                UNIT;       # unit : mutez : @some : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+                TRANSFER_TOKENS; # operation : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+                CONS;       # list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
               }; # list operation : pair (pair (big_map address (pair string (pair address (pair nat nat)))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
           }; # list operation : pair (pair (big_map address (pair string (pair address (pair nat nat)))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
       }
@@ -292,7 +308,7 @@ code
             GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : @parameter%remove_credits : @storage
             IF_NONE
               {
-                PUSH int 155; # int : @parameter%remove_credits : @storage
+                PUSH int 156; # int : @parameter%remove_credits : @storage
                 FAILWITH;   # FAILED
               }
               {}; # @some : @parameter%remove_credits : @storage
@@ -332,7 +348,7 @@ code
             GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits : @storage
             IF_NONE
               {
-                PUSH int 162; # int : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits : @storage
+                PUSH int 163; # int : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits : @storage
                 FAILWITH;   # FAILED
               }
               {}; # @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits : @storage
@@ -344,7 +360,7 @@ code
             GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits : @storage
             IF_NONE
               {
-                PUSH int 161; # int : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits : @storage
+                PUSH int 162; # int : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits : @storage
                 FAILWITH;   # FAILED
               }
               {}; # @some : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits : @storage
@@ -371,7 +387,7 @@ code
             GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : nat : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits
             IF_NONE
               {
-                PUSH int 161; # int : nat : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits
+                PUSH int 162; # int : nat : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits
                 FAILWITH;   # FAILED
               }
               {}; # @some : nat : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits
@@ -380,7 +396,7 @@ code
             ISNAT;      # option nat : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits
             IF_NONE
               {
-                PUSH int 162; # int : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits
+                PUSH int 163; # int : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits
                 FAILWITH;   # FAILED
               }
               {}; # @some : @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%remove_credits
@@ -413,7 +429,7 @@ code
             GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : nat : mutez : @some : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
             IF_NONE
               {
-                PUSH int 161; # int : nat : mutez : @some : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+                PUSH int 162; # int : nat : mutez : @some : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
                 FAILWITH;   # FAILED
               }
               {}; # @some : nat : mutez : @some : list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
@@ -439,7 +455,7 @@ code
                 GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : @parameter%remove_task : @storage
                 IF_NONE
                   {
-                    PUSH int 84; # int : @parameter%remove_task : @storage
+                    PUSH int 85; # int : @parameter%remove_task : @storage
                     FAILWITH;   # FAILED
                   }
                   {}; # @some : @parameter%remove_task : @storage
@@ -486,7 +502,7 @@ code
                 GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : mutez : @some : list operation : @parameter%remove_task : @storage
                 IF_NONE
                   {
-                    PUSH int 94; # int : mutez : @some : list operation : @parameter%remove_task : @storage
+                    PUSH int 95; # int : mutez : @some : list operation : @parameter%remove_task : @storage
                     FAILWITH;   # FAILED
                   }
                   {}; # @some : mutez : @some : list operation : @parameter%remove_task : @storage
@@ -522,7 +538,7 @@ code
                 GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : @parameter%update_tip : @storage
                 IF_NONE
                   {
-                    PUSH int 112; # int : @parameter%update_tip : @storage
+                    PUSH int 113; # int : @parameter%update_tip : @storage
                     FAILWITH;   # FAILED
                   }
                   {}; # @some : @parameter%update_tip : @storage
@@ -548,7 +564,7 @@ code
                 GET;        # option (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%update_tip
                 IF_NONE
                   {
-                    PUSH int 115; # int : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%update_tip
+                    PUSH int 116; # int : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%update_tip
                     FAILWITH;   # FAILED
                   }
                   {}; # @some : address : big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits)))) : address : pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)) : @parameter%update_tip
@@ -563,6 +579,12 @@ code
                 NIL operation; # list operation : pair (pair (big_map address (pair (string %metadata) (pair (address %owner) (pair (nat %tip) (nat %credits))))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
               }; # list operation : pair (pair (big_map address (pair string (pair address (pair nat nat)))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
           }; # list operation : pair (pair (big_map address (pair string (pair address (pair nat nat)))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+      }; # list operation : pair (pair (big_map address (pair string (pair address (pair nat nat)))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+    NIL operation; # list operation : list operation : pair (pair (big_map address (pair string (pair address (pair nat nat)))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+    SWAP;       # list operation : list operation : pair (pair (big_map address (pair string (pair address (pair nat nat)))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
+    ITER
+      {
+        CONS;       # list operation : pair (pair (big_map address (pair string (pair address (pair nat nat)))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
       }; # list operation : pair (pair (big_map address (pair string (pair address (pair nat nat)))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager)))
     PAIR;       # pair (list operation) (pair (pair (big_map address (pair string (pair address (pair nat nat)))) address) (pair (address %minter) (pair (address %sizzle_token) (address %sizzler_manager))))
   };
