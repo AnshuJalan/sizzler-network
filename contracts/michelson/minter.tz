@@ -1,0 +1,398 @@
+parameter (or (or (unit %claim_dev_share) (or (unit %mint_sizzler_reward) (pair %mint_to_address (address %address) (nat %value)))) (or (or (address %update_dev_address) (address %update_governor)) (or (pair %update_mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (address %update_task_manager))));
+storage   (pair (pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager))));
+code
+  {
+    UNPAIR;     # @parameter : @storage
+    IF_LEFT
+      {
+        IF_LEFT
+          {
+            DROP;       # @storage
+            # == claim_dev_share ==
+            # sp.verify(sp.sender == self.data.dev_address, 'NOT_AUTHORISED') # @storage
+            DUP;        # @storage : @storage
+            CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : @storage
+            CAR;        # address : @storage
+            SENDER;     # @sender : address : @storage
+            COMPARE;    # int : @storage
+            EQ;         # bool : @storage
+            IF
+              {}
+              {
+                PUSH string "NOT_AUTHORISED"; # string : @storage
+                FAILWITH;   # FAILED
+              }; # @storage
+            # if (sp.fst(self.data.mint_rates.dev) * (sp.as_nat(sp.now - self.data.last_minted.dev) // sp.snd(self.data.mint_rates.dev))) != 0: # @storage
+            PUSH nat 0; # nat : @storage
+            SWAP;       # @storage : nat
+            DUP;        # @storage : @storage : nat
+            GET 3;      # pair (pair %sizzler nat nat) (pair %dev nat nat) : @storage : nat
+            GET 4;      # nat : @storage : nat
+            SWAP;       # @storage : nat : nat
+            DUP;        # @storage : @storage : nat : nat
+            DUG 3;      # @storage : nat : nat : @storage
+            CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : nat : nat : @storage
+            GET 6;      # timestamp : nat : nat : @storage
+            NOW;        # @now : timestamp : nat : nat : @storage
+            SUB;        # int : nat : nat : @storage
+            ISNAT;      # option nat : nat : nat : @storage
+            IF_NONE
+              {
+                PUSH int 93; # int : nat : nat : @storage
+                FAILWITH;   # FAILED
+              }
+              {}; # @some : nat : nat : @storage
+            EDIV;       # option (pair nat nat) : nat : @storage
+            IF_NONE
+              {
+                PUSH int 93; # int : nat : @storage
+                FAILWITH;   # FAILED
+              }
+              {
+                CAR;        # nat : nat : @storage
+              }; # nat : nat : @storage
+            DUP 3;      # @storage : nat : nat : @storage
+            GET 3;      # pair (pair %sizzler nat nat) (pair %dev nat nat) : nat : nat : @storage
+            GET 3;      # nat : nat : nat : @storage
+            MUL;        # nat : nat : @storage
+            COMPARE;    # int : @storage
+            NEQ;        # bool : @storage
+            IF
+              {
+                # sp.transfer(sp.record(address = self.data.dev_address, value = sp.fst(self.data.mint_rates.dev) * (sp.as_nat(sp.now - self.data.last_minted.dev) // sp.snd(self.data.mint_rates.dev))), sp.tez(0), sp.contract(sp.TRecord(address = sp.TAddress, value = sp.TNat).layout(("address", "value")), self.data.sizzle_token, entry_point='mint').open_some()) # @storage
+                DUP;        # @storage : @storage
+                GET 5;      # address : @storage
+                CONTRACT %mint (pair (address %address) (nat %value)); # option (contract (pair (address %address) (nat %value))) : @storage
+                IF_NONE
+                  {
+                    PUSH int 97; # int : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : @storage
+                NIL operation; # list operation : @some : @storage
+                SWAP;       # @some : list operation : @storage
+                PUSH mutez 0; # mutez : @some : list operation : @storage
+                DIG 3;      # @storage : mutez : @some : list operation
+                DUP;        # @storage : @storage : mutez : @some : list operation
+                GET 3;      # pair (pair %sizzler nat nat) (pair %dev nat nat) : @storage : mutez : @some : list operation
+                GET 4;      # nat : @storage : mutez : @some : list operation
+                SWAP;       # @storage : nat : mutez : @some : list operation
+                DUP;        # @storage : @storage : nat : mutez : @some : list operation
+                DUG 5;      # @storage : nat : mutez : @some : list operation : @storage
+                CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : nat : mutez : @some : list operation : @storage
+                GET 6;      # timestamp : nat : mutez : @some : list operation : @storage
+                NOW;        # @now : timestamp : nat : mutez : @some : list operation : @storage
+                SUB;        # int : nat : mutez : @some : list operation : @storage
+                ISNAT;      # option nat : nat : mutez : @some : list operation : @storage
+                IF_NONE
+                  {
+                    PUSH int 93; # int : nat : mutez : @some : list operation : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : nat : mutez : @some : list operation : @storage
+                EDIV;       # option (pair nat nat) : mutez : @some : list operation : @storage
+                IF_NONE
+                  {
+                    PUSH int 93; # int : mutez : @some : list operation : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {
+                    CAR;        # nat : mutez : @some : list operation : @storage
+                  }; # nat : mutez : @some : list operation : @storage
+                DUP 5;      # @storage : nat : mutez : @some : list operation : @storage
+                GET 3;      # pair (pair %sizzler nat nat) (pair %dev nat nat) : nat : mutez : @some : list operation : @storage
+                GET 3;      # nat : nat : mutez : @some : list operation : @storage
+                MUL;        # nat : mutez : @some : list operation : @storage
+                DUP 5;      # @storage : nat : mutez : @some : list operation : @storage
+                CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : nat : mutez : @some : list operation : @storage
+                CAR;        # address : nat : mutez : @some : list operation : @storage
+                PAIR;       # pair address nat : mutez : @some : list operation : @storage
+                TRANSFER_TOKENS; # operation : list operation : @storage
+                CONS;       # list operation : @storage
+                SWAP;       # @storage : list operation
+                # self.data.last_minted.dev = sp.now # @storage : list operation
+                UNPAIR;     # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                UNPAIR;     # address : pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev)) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                SWAP;       # pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev)) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                UNPAIR;     # address : pair (timestamp %sizzler) (timestamp %dev) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                SWAP;       # pair (timestamp %sizzler) (timestamp %dev) : address : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                NOW;        # @now : pair (timestamp %sizzler) (timestamp %dev) : address : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                UPDATE 2;   # pair (timestamp %sizzler) (timestamp %dev) : address : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                SWAP;       # address : pair (timestamp %sizzler) (timestamp %dev) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                PAIR;       # pair address (pair (timestamp %sizzler) (timestamp %dev)) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                SWAP;       # address : pair address (pair (timestamp %sizzler) (timestamp %dev)) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                PAIR;       # pair address (pair address (pair (timestamp %sizzler) (timestamp %dev))) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                PAIR;       # pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager))) : list operation
+                SWAP;       # list operation : pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+              }
+              {
+                NIL operation; # list operation : @storage
+              }; # list operation : pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+          }
+          {
+            IF_LEFT
+              {
+                DROP;       # @storage
+                # == mint_sizzler_reward ==
+                # sp.verify(sp.sender == self.data.task_manager, 'NOT_AUTHORISED') # @storage
+                DUP;        # @storage : @storage
+                GET 6;      # address : @storage
+                SENDER;     # @sender : address : @storage
+                COMPARE;    # int : @storage
+                EQ;         # bool : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "NOT_AUTHORISED"; # string : @storage
+                    FAILWITH;   # FAILED
+                  }; # @storage
+                # if (sp.fst(self.data.mint_rates.sizzler) * (sp.as_nat(sp.now - self.data.last_minted.sizzler) // sp.snd(self.data.mint_rates.sizzler))) != 0: # @storage
+                PUSH nat 0; # nat : @storage
+                SWAP;       # @storage : nat
+                DUP;        # @storage : @storage : nat
+                GET 3;      # pair (pair %sizzler nat nat) (pair %dev nat nat) : @storage : nat
+                CAR;        # pair nat nat : @storage : nat
+                CDR;        # nat : @storage : nat
+                SWAP;       # @storage : nat : nat
+                DUP;        # @storage : @storage : nat : nat
+                DUG 3;      # @storage : nat : nat : @storage
+                CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : nat : nat : @storage
+                GET 5;      # timestamp : nat : nat : @storage
+                NOW;        # @now : timestamp : nat : nat : @storage
+                SUB;        # int : nat : nat : @storage
+                ISNAT;      # option nat : nat : nat : @storage
+                IF_NONE
+                  {
+                    PUSH int 68; # int : nat : nat : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : nat : nat : @storage
+                EDIV;       # option (pair nat nat) : nat : @storage
+                IF_NONE
+                  {
+                    PUSH int 68; # int : nat : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {
+                    CAR;        # nat : nat : @storage
+                  }; # nat : nat : @storage
+                DUP 3;      # @storage : nat : nat : @storage
+                GET 3;      # pair (pair %sizzler nat nat) (pair %dev nat nat) : nat : nat : @storage
+                CAR;        # pair nat nat : nat : nat : @storage
+                CAR;        # nat : nat : nat : @storage
+                MUL;        # nat : nat : @storage
+                COMPARE;    # int : @storage
+                NEQ;        # bool : @storage
+                IF
+                  {
+                    # sp.transfer(sp.record(address = sp.source, value = sp.fst(self.data.mint_rates.sizzler) * (sp.as_nat(sp.now - self.data.last_minted.sizzler) // sp.snd(self.data.mint_rates.sizzler))), sp.tez(0), sp.contract(sp.TRecord(address = sp.TAddress, value = sp.TNat).layout(("address", "value")), self.data.sizzle_token, entry_point='mint').open_some()) # @storage
+                    DUP;        # @storage : @storage
+                    GET 5;      # address : @storage
+                    CONTRACT %mint (pair (address %address) (nat %value)); # option (contract (pair (address %address) (nat %value))) : @storage
+                    IF_NONE
+                      {
+                        PUSH int 72; # int : @storage
+                        FAILWITH;   # FAILED
+                      }
+                      {}; # @some : @storage
+                    NIL operation; # list operation : @some : @storage
+                    SWAP;       # @some : list operation : @storage
+                    PUSH mutez 0; # mutez : @some : list operation : @storage
+                    DIG 3;      # @storage : mutez : @some : list operation
+                    DUP;        # @storage : @storage : mutez : @some : list operation
+                    GET 3;      # pair (pair %sizzler nat nat) (pair %dev nat nat) : @storage : mutez : @some : list operation
+                    CAR;        # pair nat nat : @storage : mutez : @some : list operation
+                    CDR;        # nat : @storage : mutez : @some : list operation
+                    SWAP;       # @storage : nat : mutez : @some : list operation
+                    DUP;        # @storage : @storage : nat : mutez : @some : list operation
+                    DUG 5;      # @storage : nat : mutez : @some : list operation : @storage
+                    CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : nat : mutez : @some : list operation : @storage
+                    GET 5;      # timestamp : nat : mutez : @some : list operation : @storage
+                    NOW;        # @now : timestamp : nat : mutez : @some : list operation : @storage
+                    SUB;        # int : nat : mutez : @some : list operation : @storage
+                    ISNAT;      # option nat : nat : mutez : @some : list operation : @storage
+                    IF_NONE
+                      {
+                        PUSH int 68; # int : nat : mutez : @some : list operation : @storage
+                        FAILWITH;   # FAILED
+                      }
+                      {}; # @some : nat : mutez : @some : list operation : @storage
+                    EDIV;       # option (pair nat nat) : mutez : @some : list operation : @storage
+                    IF_NONE
+                      {
+                        PUSH int 68; # int : mutez : @some : list operation : @storage
+                        FAILWITH;   # FAILED
+                      }
+                      {
+                        CAR;        # nat : mutez : @some : list operation : @storage
+                      }; # nat : mutez : @some : list operation : @storage
+                    DUP 5;      # @storage : nat : mutez : @some : list operation : @storage
+                    GET 3;      # pair (pair %sizzler nat nat) (pair %dev nat nat) : nat : mutez : @some : list operation : @storage
+                    CAR;        # pair nat nat : nat : mutez : @some : list operation : @storage
+                    CAR;        # nat : nat : mutez : @some : list operation : @storage
+                    MUL;        # nat : mutez : @some : list operation : @storage
+                    SOURCE;     # @source : nat : mutez : @some : list operation : @storage
+                    PAIR;       # pair @source nat : mutez : @some : list operation : @storage
+                    TRANSFER_TOKENS; # operation : list operation : @storage
+                    CONS;       # list operation : @storage
+                    SWAP;       # @storage : list operation
+                    # self.data.last_minted.sizzler = sp.now # @storage : list operation
+                    UNPAIR;     # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    UNPAIR;     # address : pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev)) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    SWAP;       # pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev)) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    UNPAIR;     # address : pair (timestamp %sizzler) (timestamp %dev) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    SWAP;       # pair (timestamp %sizzler) (timestamp %dev) : address : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    NOW;        # @now : pair (timestamp %sizzler) (timestamp %dev) : address : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    UPDATE 1;   # pair (timestamp %sizzler) (timestamp %dev) : address : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    SWAP;       # address : pair (timestamp %sizzler) (timestamp %dev) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    PAIR;       # pair address (pair (timestamp %sizzler) (timestamp %dev)) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    SWAP;       # address : pair address (pair (timestamp %sizzler) (timestamp %dev)) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    PAIR;       # pair address (pair address (pair (timestamp %sizzler) (timestamp %dev))) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : list operation
+                    PAIR;       # pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager))) : list operation
+                    SWAP;       # list operation : pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+                  }
+                  {
+                    NIL operation; # list operation : @storage
+                  }; # list operation : pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+              }
+              {
+                SWAP;       # @storage : @parameter%mint_to_address
+                # == mint_to_address ==
+                # sp.verify(sp.sender == self.data.governor, 'NOT_AUTHORISED') # @storage : @parameter%mint_to_address
+                DUP;        # @storage : @storage : @parameter%mint_to_address
+                DUG 2;      # @storage : @parameter%mint_to_address : @storage
+                CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : @parameter%mint_to_address : @storage
+                GET 3;      # address : @parameter%mint_to_address : @storage
+                SENDER;     # @sender : address : @parameter%mint_to_address : @storage
+                COMPARE;    # int : @parameter%mint_to_address : @storage
+                EQ;         # bool : @parameter%mint_to_address : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "NOT_AUTHORISED"; # string : @parameter%mint_to_address : @storage
+                    FAILWITH;   # FAILED
+                  }; # @parameter%mint_to_address : @storage
+                # sp.transfer(params, sp.tez(0), sp.contract(sp.TRecord(address = sp.TAddress, value = sp.TNat).layout(("address", "value")), self.data.sizzle_token, entry_point='mint').open_some()) # @parameter%mint_to_address : @storage
+                NIL operation; # list operation : @parameter%mint_to_address : @storage
+                DUP 3;      # @storage : list operation : @parameter%mint_to_address : @storage
+                GET 5;      # address : list operation : @parameter%mint_to_address : @storage
+                CONTRACT %mint (pair (address %address) (nat %value)); # option (contract (pair (address %address) (nat %value))) : list operation : @parameter%mint_to_address : @storage
+                IF_NONE
+                  {
+                    PUSH int 114; # int : list operation : @parameter%mint_to_address : @storage
+                    FAILWITH;   # FAILED
+                  }
+                  {}; # @some : list operation : @parameter%mint_to_address : @storage
+                PUSH mutez 0; # mutez : @some : list operation : @parameter%mint_to_address : @storage
+                DIG 3;      # @parameter%mint_to_address : mutez : @some : list operation : @storage
+                TRANSFER_TOKENS; # operation : list operation : @storage
+                CONS;       # list operation : @storage
+              }; # list operation : pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+          }; # list operation : pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+      }
+      {
+        IF_LEFT
+          {
+            IF_LEFT
+              {
+                SWAP;       # @storage : @parameter%update_dev_address
+                # == update_dev_address ==
+                # sp.verify(sp.sender == self.data.governor, 'NOT_AUTHORISED') # @storage : @parameter%update_dev_address
+                DUP;        # @storage : @storage : @parameter%update_dev_address
+                DUG 2;      # @storage : @parameter%update_dev_address : @storage
+                CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : @parameter%update_dev_address : @storage
+                GET 3;      # address : @parameter%update_dev_address : @storage
+                SENDER;     # @sender : address : @parameter%update_dev_address : @storage
+                COMPARE;    # int : @parameter%update_dev_address : @storage
+                EQ;         # bool : @parameter%update_dev_address : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "NOT_AUTHORISED"; # string : @parameter%update_dev_address : @storage
+                    FAILWITH;   # FAILED
+                  }; # @parameter%update_dev_address : @storage
+                SWAP;       # @storage : @parameter%update_dev_address
+                # self.data.dev_address = params # @storage : @parameter%update_dev_address
+                UNPAIR;     # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : @parameter%update_dev_address
+                CDR;        # pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev)) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : @parameter%update_dev_address
+                DIG 2;      # @parameter%update_dev_address : pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev)) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager))
+                PAIR;       # pair @parameter%update_dev_address (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager))
+                PAIR;       # pair (pair @parameter%update_dev_address (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+              }
+              {
+                SWAP;       # @storage : @parameter%update_governor
+                # == update_governor ==
+                # sp.verify(sp.sender == self.data.governor, 'NOT_AUTHORISED') # @storage : @parameter%update_governor
+                DUP;        # @storage : @storage : @parameter%update_governor
+                DUG 2;      # @storage : @parameter%update_governor : @storage
+                CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : @parameter%update_governor : @storage
+                GET 3;      # address : @parameter%update_governor : @storage
+                SENDER;     # @sender : address : @parameter%update_governor : @storage
+                COMPARE;    # int : @parameter%update_governor : @storage
+                EQ;         # bool : @parameter%update_governor : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "NOT_AUTHORISED"; # string : @parameter%update_governor : @storage
+                    FAILWITH;   # FAILED
+                  }; # @parameter%update_governor : @storage
+                SWAP;       # @storage : @parameter%update_governor
+                # self.data.governor = params # @storage : @parameter%update_governor
+                UNPAIR;     # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : @parameter%update_governor
+                UNPAIR;     # address : pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev)) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : @parameter%update_governor
+                SWAP;       # pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev)) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : @parameter%update_governor
+                CDR;        # pair (timestamp %sizzler) (timestamp %dev) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)) : @parameter%update_governor
+                DIG 3;      # @parameter%update_governor : pair (timestamp %sizzler) (timestamp %dev) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager))
+                PAIR;       # pair @parameter%update_governor (pair (timestamp %sizzler) (timestamp %dev)) : address : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager))
+                SWAP;       # address : pair @parameter%update_governor (pair (timestamp %sizzler) (timestamp %dev)) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager))
+                PAIR;       # pair address (pair @parameter%update_governor (pair (timestamp %sizzler) (timestamp %dev))) : pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager))
+                PAIR;       # pair (pair address (pair @parameter%update_governor (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+              }; # pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+          }
+          {
+            IF_LEFT
+              {
+                SWAP;       # @storage : @parameter%update_mint_rates
+                # == update_mint_rates ==
+                # sp.verify(sp.sender == self.data.governor, 'NOT_AUTHORISED') # @storage : @parameter%update_mint_rates
+                DUP;        # @storage : @storage : @parameter%update_mint_rates
+                DUG 2;      # @storage : @parameter%update_mint_rates : @storage
+                CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : @parameter%update_mint_rates : @storage
+                GET 3;      # address : @parameter%update_mint_rates : @storage
+                SENDER;     # @sender : address : @parameter%update_mint_rates : @storage
+                COMPARE;    # int : @parameter%update_mint_rates : @storage
+                EQ;         # bool : @parameter%update_mint_rates : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "NOT_AUTHORISED"; # string : @parameter%update_mint_rates : @storage
+                    FAILWITH;   # FAILED
+                  }; # @parameter%update_mint_rates : @storage
+                # self.data.mint_rates = params # @parameter%update_mint_rates : @storage
+                UPDATE 3;   # @storage
+              }
+              {
+                SWAP;       # @storage : @parameter%update_task_manager
+                # == update_task_manager ==
+                # sp.verify(sp.sender == self.data.governor, 'NOT_AUTHORISED') # @storage : @parameter%update_task_manager
+                DUP;        # @storage : @storage : @parameter%update_task_manager
+                DUG 2;      # @storage : @parameter%update_task_manager : @storage
+                CAR;        # pair (address %dev_address) (pair (address %governor) (pair %last_minted (timestamp %sizzler) (timestamp %dev))) : @parameter%update_task_manager : @storage
+                GET 3;      # address : @parameter%update_task_manager : @storage
+                SENDER;     # @sender : address : @parameter%update_task_manager : @storage
+                COMPARE;    # int : @parameter%update_task_manager : @storage
+                EQ;         # bool : @parameter%update_task_manager : @storage
+                IF
+                  {}
+                  {
+                    PUSH string "NOT_AUTHORISED"; # string : @parameter%update_task_manager : @storage
+                    FAILWITH;   # FAILED
+                  }; # @parameter%update_task_manager : @storage
+                # self.data.task_manager = params # @parameter%update_task_manager : @storage
+                UPDATE 6;   # @storage
+              }; # @storage
+          }; # pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+        NIL operation; # list operation : pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+      }; # list operation : pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager)))
+    PAIR;       # pair (list operation) (pair (pair address (pair address (pair (timestamp %sizzler) (timestamp %dev)))) (pair (pair %mint_rates (pair %sizzler nat nat) (pair %dev nat nat)) (pair (address %sizzle_token) (address %task_manager))))
+  };
