@@ -58,7 +58,8 @@ class Minter(sp.Contract):
         )
 
     @sp.entry_point
-    def mint_sizzler_reward(self):
+    def mint_sizzler_reward(self, sizzler_address):
+        sp.set_type(sizzler_address, sp.TAddress)
 
         # Verify that sender is TaskManager
         sp.verify(sp.sender == self.data.task_manager, Errors.NOT_AUTHORISED)
@@ -75,9 +76,8 @@ class Minter(sp.Contract):
                 "mint",
             ).open_some()
 
-            # Sizzler must initiate the task completion as source.
-            # This fails in SizzlerManager if the sizzler is not the source.
-            sp.transfer(sp.record(address=sp.source, value=num_tokens), sp.tez(0), c)
+            # Sizzler must initiate the task completion.
+            sp.transfer(sp.record(address=sizzler_address, value=num_tokens), sp.tez(0), c)
 
             # Update last minted time
             self.data.last_minted.sizzler = sp.now
@@ -181,10 +181,9 @@ if __name__ == "__main__":
         # Update admin for sizzle token
         scenario += sizzle.setAdministrator(minter.address).run(sender=Addresses.ADMIN)
 
-        # When ALICE (source sizzler) completes a task and mint_sizzler_reward is called
-        scenario += minter.mint_sizzler_reward().run(
+        # When ALICE (a sizzler) completes a task and mint_sizzler_reward is called
+        scenario += minter.mint_sizzler_reward(Addresses.ALICE).run(
             sender=Addresses.CONTRACT,
-            source=Addresses.ALICE,
             now=sp.timestamp(650),
         )
 
@@ -214,7 +213,7 @@ if __name__ == "__main__":
         # Update admin for sizzle token
         scenario += sizzle.setAdministrator(minter.address).run(sender=Addresses.ADMIN)
 
-        # When ALICE (source sizzler) completes a task and mint_sizzler_reward is called
+        # When ALICE (the dev) calls the claim_dev_share
         scenario += minter.claim_dev_share().run(
             sender=Addresses.ALICE,
             now=sp.timestamp(2880),

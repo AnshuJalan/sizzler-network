@@ -4,6 +4,7 @@ TokenUtils = sp.io.import_script_from_url("file:utils/token.py")
 Addresses = sp.io.import_script_from_url("file:helpers/addresses.py")
 FA12 = sp.io.import_script_from_url("file:helpers/tokens/fa12.py").FA12
 SizzlerManagerDummy = sp.io.import_script_from_url("file:helpers/dummy/sizzler_manager_dummy.py").SizzlerManagerDummy
+MinterDummy = sp.io.import_script_from_url("file:helpers/dummy/minter_dummy.py").MinterDummy
 
 
 class Types:
@@ -173,7 +174,9 @@ class TaskManager(sp.Contract):
         )
 
     @sp.entry_point
-    def complete_task(self):
+    def complete_task(self, sizzler_address):
+        sp.set_type(sizzler_address, sp.TAddress)
+
         task = self.data.contract_to_task[sp.sender]
 
         # Pay tip
@@ -182,7 +185,7 @@ class TaskManager(sp.Contract):
                 sp.record(
                     token_address=self.data.sizzle_token,
                     from_=sp.self_address,
-                    to_=sp.source,
+                    to_=sizzler_address,
                     value=task.tip,
                 )
             )
@@ -191,10 +194,12 @@ class TaskManager(sp.Contract):
             task.credits = sp.as_nat(task.credits - task.tip)
 
         # Call complete_task_sizzler in SizzlerManager
-        c = sp.contract(sp.TUnit, self.data.sizzler_manager, "complete_task_sizzler").open_some()
-        sp.transfer(sp.unit, sp.tez(0), c)
+        c_sm = sp.contract(sp.TAddress, self.data.sizzler_manager, "complete_task_sizzler").open_some()
+        sp.transfer(sizzler_address, sp.tez(0), c_sm)
 
-        # TODO: Call mint_reward in Minter
+        # Call mint_sizzler_reward in Minter
+        c_m = sp.contract(sp.TAddress, self.data.minter, "mint_sizzler_reward").open_some()
+        sp.transfer(sizzler_address, sp.tez(0), c_m)
 
 
 if __name__ == "__main__":
@@ -344,8 +349,8 @@ if __name__ == "__main__":
         # Mint SZL for TaskManager
         scenario += sizzle.mint(address=tm.address, value=100).run(sender=Addresses.ADMIN)
 
-        # When complete_task is called with BOB (a sizzler) as source
-        scenario += tm.complete_task().run(sender=Addresses.CONTRACT, source=Addresses.BOB)
+        # When complete_task is called with BOB as sizzler
+        scenario += tm.complete_task(Addresses.BOB).run(sender=Addresses.CONTRACT)
 
         # BOB gets the tip in SZL tokens
         scenario.verify(sizzle.data.balances[Addresses.BOB].balance == 10)

@@ -212,13 +212,13 @@ class SizzlerManager(sp.Contract):
         self.data.withdrawals[sp.sender].amount = 0
 
     @sp.entry_point
-    def complete_task_sizzler(self):
+    def complete_task_sizzler(self, sizzler_address):
+        sp.set_type(sizzler_address, sp.TAddress)
 
         # Verify that the sender is the TaskManager contract
         sp.verify(sp.sender == self.data.task_manager, Errors.NOT_AUTHORISED)
 
         # The sizzler must initiate the txn at the task contract
-        sizzler_address = sp.source
         sizzler = self.data.sizzlers[sizzler_address]
 
         # Verify that the sizzler does not have a pending withdrawal
@@ -597,10 +597,9 @@ if __name__ == "__main__":
 
         scenario += sm
 
-        # When complete_task_sizzler is called with source as ALICE
-        scenario += sm.complete_task_sizzler().run(
+        # When complete_task_sizzler is called with sizzler as ALICE
+        scenario += sm.complete_task_sizzler(Addresses.ALICE).run(
             sender=Addresses.CONTRACT,
-            source=Addresses.ALICE,
             now=sp.timestamp(3),
         )
 
@@ -630,10 +629,9 @@ if __name__ == "__main__":
 
         scenario += sm
 
-        # When complete_task_sizzler is called with source as ALICE, after a reset period (1 + 5 + 1 (extra))
-        scenario += sm.complete_task_sizzler().run(
+        # When complete_task_sizzler is called with sizzler as ALICE, after a reset period (1 + 5 + 1 (extra))
+        scenario += sm.complete_task_sizzler(Addresses.ALICE).run(
             sender=Addresses.CONTRACT,
-            source=Addresses.ALICE,
             now=sp.timestamp(7),
         )
 
