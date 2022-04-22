@@ -201,6 +201,34 @@ class TaskManager(sp.Contract):
         c_m = sp.contract(sp.TAddress, self.data.minter, "mint_sizzler_reward").open_some()
         sp.transfer(sizzler_address, sp.tez(0), c_m)
 
+    ################
+    # governor-only
+    ################
+
+    @sp.entry_point
+    def update_minter(self, address):
+        sp.set_type(address, sp.TAddress)
+
+        sp.verify(sp.sender == self.data.governor, Errors.NOT_AUTHORISED)
+
+        self.data.minter = address
+
+    @sp.entry_point
+    def update_sizzler_manager(self, address):
+        sp.set_type(address, sp.TAddress)
+
+        sp.verify(sp.sender == self.data.governor, Errors.NOT_AUTHORISED)
+
+        self.data.sizzler_manager = address
+
+    @sp.entry_point
+    def update_governor(self, address):
+        sp.set_type(address, sp.TAddress)
+
+        sp.verify(sp.sender == self.data.governor, Errors.NOT_AUTHORISED)
+
+        self.data.governor = address
+
 
 if __name__ == "__main__":
 
