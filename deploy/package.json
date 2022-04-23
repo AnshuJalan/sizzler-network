@@ -1,0 +1,20 @@
+{
+  "name": "deploy",
+  "version": "1.0.0",
+  "description": "Deplyment scripts for Sizzler Network",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "deploy-szl": "ts-node ./src/index.ts 1",
+    "deploy-managers": "ts-node ./src/index.ts 2",
+    "deploy-governor": "ts-node ./src/index.ts 3"
+  },
+  "dependencies": {
+    "@taquito/signer": "^12.0.0",
+    "@taquito/taquito": "^12.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.3"
+  }
+}
