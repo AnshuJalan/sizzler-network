@@ -128,6 +128,12 @@ class FA12_administrator(FA12_core):
     def is_administrator(self, sender):
         return sender == self.data.administrator
 
+    @sp.entry_point
+    def setAdministrator(self, address):
+        sp.set_type(address, sp.TAddress)
+        sp.verify(self.is_administrator(sp.sender), FA12_Error.NotAdmin)
+        self.data.administrator = address
+
     # CHANGED
     @sp.entry_point
     def updateMintAdmin(self, address):
