@@ -11,6 +11,7 @@ module.exports = {
         secondary: "#E45826",
         navlink: "#8B6C61",
         card: "#E9E4DB",
+        info: "#F0A500",
       },
     },
   },

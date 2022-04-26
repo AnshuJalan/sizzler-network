@@ -1,10 +1,11 @@
 import { useEffect } from "react";
-// import { Router } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 // Hooks
 import { useActions } from "./hooks";
 
-// Temp
+// Components and Pages
+import Home from "./pages/Home";
 import Navbar from "./components/layout/Navbar";
 
 const App = () => {
@@ -16,7 +17,13 @@ const App = () => {
 
   return (
     <div className="h-full w-full overflow-x-hidden bg-primary font-primary">
-      <Navbar />
+      <BrowserRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/home" element={<Home />} />
+          <Route path="*" element={<Navigate to="/home" />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 };

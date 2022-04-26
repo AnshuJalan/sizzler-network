@@ -6,15 +6,20 @@ import * as t from "../types";
 
 interface WalletState {
   isConnected: boolean;
+  xtzBalance: string;
   accountPkh: string;
 }
 
 const initialState: WalletState = {
   isConnected: false,
+  xtzBalance: "",
   accountPkh: "",
 };
 
-export const walletReducer: Reducer<WalletState, WalletAction> = (state = initialState, action): WalletState => {
+export const walletReducer: Reducer<WalletState, WalletAction> = (
+  state = initialState,
+  action
+): WalletState => {
   switch (action.type) {
     case t.WalletActionTypes.CONNECT_WALLET: {
       return {
