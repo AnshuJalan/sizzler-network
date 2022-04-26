@@ -10,6 +10,7 @@ import App from "./App";
 import { rootReducer } from "./redux/reducers";
 
 // Style
+import "flowbite";
 import "./index.css";
 
 const store = configureStore({ reducer: rootReducer });

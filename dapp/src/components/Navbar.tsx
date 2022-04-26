@@ -1,11 +1,11 @@
 import { Link, useLocation } from "react-router-dom";
 
 // Hooks
-import { useActions, useTypedSelector } from "../../hooks";
+import { useActions, useTypedSelector } from "../hooks";
 
 // Components
-import Button from "../button/Button";
-import Badge from "../badge/Badge";
+import Button from "./Button";
+import Badge from "./Badge";
 
 // Local constants
 const NAVLINKS = ["home", "tasks", "logs", "governance", "bond"];

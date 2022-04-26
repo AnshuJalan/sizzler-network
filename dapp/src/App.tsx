@@ -6,7 +6,8 @@ import { useActions } from "./hooks";
 
 // Components and Pages
 import Home from "./pages/Home";
-import Navbar from "./components/layout/Navbar";
+import Tasks from "./pages/Tasks";
+import Navbar from "./components/Navbar";
 
 const App = () => {
   const { connectWallet } = useActions();
@@ -21,6 +22,7 @@ const App = () => {
         <Navbar />
         <Routes>
           <Route path="/home" element={<Home />} />
+          <Route path="/tasks" element={<Tasks />} />
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>
