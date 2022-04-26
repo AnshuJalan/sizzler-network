@@ -1,7 +1,11 @@
 import { useEffect } from "react";
+// import { Router } from "react-router-dom";
 
 // Hooks
 import { useActions } from "./hooks";
+
+// Temp
+import Navbar from "./components/layout/Navbar";
 
 const App = () => {
   const { connectWallet } = useActions();
@@ -11,8 +15,8 @@ const App = () => {
   }, [connectWallet]);
 
   return (
-    <div onClick={() => connectWallet(true)} className="font-bold">
-      Hello World!
+    <div className="h-full w-full overflow-x-hidden bg-primary font-primary">
+      <Navbar />
     </div>
   );
 };
