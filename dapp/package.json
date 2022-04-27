@@ -16,6 +16,7 @@
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.2",
     "flowbite": "^1.4.3",
+    "flowbite-react": "^0.0.18",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-redux": "^8.0.1",
@@ -39,18 +40,11 @@
       "react-app/jest"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "autoprefixer": "^9",
     "postcss": "^7",

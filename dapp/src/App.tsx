@@ -8,6 +8,7 @@ import { useActions } from "./hooks";
 import Home from "./pages/Home";
 import Tasks from "./pages/Tasks";
 import Navbar from "./components/Navbar";
+import NewTask from "./pages/NewTask";
 
 const App = () => {
   const { connectWallet } = useActions();
@@ -17,12 +18,13 @@ const App = () => {
   }, [connectWallet]);
 
   return (
-    <div className="h-full w-full overflow-x-hidden bg-primary font-primary">
+    <div className="min-h-screen w-full overflow-x-hidden bg-primary font-primary">
       <BrowserRouter>
         <Navbar />
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/tasks" element={<Tasks />} />
+          <Route path="/tasks/new" element={<NewTask />} />
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>

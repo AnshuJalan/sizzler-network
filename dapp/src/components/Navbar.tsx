@@ -18,7 +18,7 @@ const Navbar = () => {
   const { accountPkh, xtzBalance, isConnected } = useTypedSelector((state) => state.wallet);
 
   const navlinkSegment = NAVLINKS.map((link: string, index) => {
-    if (path.slice(1) === link)
+    if (path.includes(link))
       return (
         <Link
           key={index}
@@ -31,7 +31,7 @@ const Navbar = () => {
       );
     else
       return (
-        <Link key={index} to={"/" + link} className="flex items-center justify-center">
+        <Link key={index} to={"/" + link} className="flex items-center justify-center opacity-80 ">
           <span className="cursor-pointer hover:text-secondary">
             {link[0].toUpperCase() + link.slice(1)}
           </span>
@@ -40,10 +40,12 @@ const Navbar = () => {
   });
 
   return (
-    <div className="fixed z-50 w-full bg-primary">
+    <div className="fixed z-40 w-full bg-primary">
       <div className="flex flex-row items-center justify-between px-5 py-4">
         {/* Brand */}
-        <img src="/assets/brand.png" alt="brand" className="w-24" />
+        <Link to="/">
+          <img src="/assets/brand.png" alt="brand" className="w-24" />
+        </Link>
         {/* Navlinks */}
         <div className="hidden md:flex flex-row justify-center gap-x-7 text-lg text-navlink font-semibold">
           {navlinkSegment}

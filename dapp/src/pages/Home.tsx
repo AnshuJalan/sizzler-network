@@ -1,7 +1,16 @@
+// Hooks
+import { useTypedSelector } from "../hooks";
+
 const Home = () => {
+  const { isConnected } = useTypedSelector((state) => state.wallet);
+
   return (
     <div className="min-h-screen flex flex-col items-center gap-y-16 sm:gap-y-20 relative">
-      <div className="font-bold text-2xl sm:text-4xl w-10/12 md:w-1/2 text-center mt-44">
+      <div
+        className={`font-bold text-2xl sm:text-4xl w-10/12 md:w-1/2 text-center ${
+          isConnected ? "mt-48 sm:mt-44" : "mt-44"
+        }`}
+      >
         Automate recurring tasks on Tezos by delegating them to S
         <span className="text-secondary">i</span>zzlers
       </div>

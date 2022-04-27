@@ -10,6 +10,7 @@ module.exports = {
         primary: "#E6D5B8",
         secondary: "#E45826",
         navlink: "#8B6C61",
+        placeholder: "#8B6C61",
         icon: "#9D917D",
         card: "#E9E4DB",
         info: "#F0A500",
@@ -20,5 +21,4 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require("flowbite/plugin")],
 };
