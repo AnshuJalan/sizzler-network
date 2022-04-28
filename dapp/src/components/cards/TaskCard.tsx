@@ -57,26 +57,26 @@ const TaskCard = ({
       {/* Divider */}
       <div className="bg-label opacity-20 h-0.5" />
       {/* Details */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 py-3 gap-y-3">
+      <div className="grid grid-cols-2 lg:grid-cols-5 py-3 gap-y-3 font-medium">
         <div className="flex flex-col items-center gap-y-2">
-          <span className="font-medium text-label">Entrypoint</span>
-          <span className="font-medium">{entrypoint}</span>
+          <span className="text-label">Entrypoint</span>
+          <span>{entrypoint}</span>
         </div>
         <div className="flex flex-col items-center gap-y-2">
-          <span className="font-medium text-label">Estimated Fee</span>
-          <span className="font-medium">{estimatedFee} ꜩ</span>
+          <span className="text-label">Estimated Fee</span>
+          <span>{estimatedFee} ꜩ</span>
         </div>
         <div className="flex flex-col items-center gap-y-2">
-          <span className="font-medium text-label">Tip</span>
-          <span className="font-medium">{tip} SZL</span>
+          <span className="text-label">Tip</span>
+          <span>{tip} SZL</span>
         </div>
         <div className="flex flex-col items-center gap-y-2">
-          <span className="font-medium text-label">Credits Remaining</span>
-          <span className="font-medium">{creditsRemaining} SZL</span>
+          <span className="text-label">Credits Remaining</span>
+          <span>{creditsRemaining} SZL</span>
         </div>
         <div className="flex flex-col items-center gap-y-2 col-span-2 lg:col-span-1">
-          <span className="font-medium text-label">Last Executed</span>
-          <span className="font-medium">{lastExecuted || "-"}</span>
+          <span className="text-label">Last Executed</span>
+          <span>{lastExecuted || "-"}</span>
         </div>
       </div>
       {isYour && (

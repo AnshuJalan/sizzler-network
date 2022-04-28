@@ -23,7 +23,7 @@ const Navbar = () => {
         <Link
           key={index}
           to={"/" + link}
-          className="flex flex-col items-center text-secondary relative"
+          className="flex flex-col items-center text-secondary relative font-bold"
         >
           <span className="cursor-pointer">{link[0].toUpperCase() + link.slice(1)}</span>
           <div className="absolute bottom-0 w-1/3 h-0.5 bg-secondary" />
@@ -31,7 +31,11 @@ const Navbar = () => {
       );
     else
       return (
-        <Link key={index} to={"/" + link} className="flex items-center justify-center opacity-80 ">
+        <Link
+          key={index}
+          to={"/" + link}
+          className="flex items-center justify-center opacity-90 font-semibold"
+        >
           <span className="cursor-pointer hover:text-secondary">
             {link[0].toUpperCase() + link.slice(1)}
           </span>
@@ -47,7 +51,7 @@ const Navbar = () => {
           <img src="/assets/brand.png" alt="brand" className="w-24" />
         </Link>
         {/* Navlinks */}
-        <div className="hidden md:flex flex-row justify-center gap-x-7 text-lg text-navlink font-semibold">
+        <div className="hidden md:flex flex-row justify-center gap-x-7 text-lg text-navlink">
           {navlinkSegment}
         </div>
         {/* Connect Wallet button */}
@@ -78,7 +82,7 @@ const Navbar = () => {
       </div>
       {/* Navlinks positioning for mobile screens */}
       <div
-        className={`flex md:hidden flex-row justify-between text-lg text-navlink font-semibold px-5 pb-4 ${
+        className={`flex md:hidden flex-row justify-between text-lg text-navlink px-5 pb-4 ${
           !isConnected && "shadow-md"
         }`}
       >

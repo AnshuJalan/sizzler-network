@@ -17,7 +17,7 @@ const NewTask = () => {
         <div className="font-bold text-3xl text-center">
           New T<span className="text-secondary">a</span>sk
         </div>
-        <div className="mt-3 m-auto w-1/2 text-center">
+        <div className="mt-3 m-auto w-10/12 sm:w-1/2 text-center">
           Only bonded Sizzlers can add new tasks. New tasks are forwarded to the governance system
           for approval.
         </div>
