@@ -38,7 +38,7 @@ const Logs = () => {
     <div className="px-5 sm:px-40 mt-44 pb-20">
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
-        <div className="flex gap-x-3 bg-card px-3 py-2 text-sm font-medium">
+        <div className="flex gap-x-3 bg-card px-3 py-2 text-sm font-medium shadow-sm">
           <i className="bi bi-info-circle-fill text-info" />
           <span>This version only shows logs for the latest task completions.</span>
         </div>

@@ -1,3 +1,4 @@
+import { useCallback, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 // Hooks
@@ -12,6 +13,8 @@ const NAVLINKS = ["home", "tasks", "logs", "governance", "bond"];
 
 const Navbar = () => {
   const path = useLocation().pathname;
+
+  const [hasShadow, setHasShadow] = useState<boolean>();
 
   const { connectWallet } = useActions();
 
@@ -43,8 +46,18 @@ const Navbar = () => {
       );
   });
 
+  // Navbar scroll shadow
+  const toggleNavbarShadow = useCallback(() => {
+    if (window.scrollY > 0) {
+      setHasShadow(true);
+    } else {
+      setHasShadow(false);
+    }
+  }, []);
+  window.addEventListener("scroll", toggleNavbarShadow);
+
   return (
-    <div className="fixed z-40 w-full bg-primary">
+    <div className={`fixed z-40 w-full bg-primary ${hasShadow && "md:shadow-md"}`}>
       <div className="flex flex-row items-center justify-between px-5 py-4">
         {/* Brand */}
         <Link to="/">
@@ -71,7 +84,7 @@ const Navbar = () => {
         <div
           className={`hidden md:flex flex-col items-end gap-y-2 absolute top-20 right-5 transition-transform duration-1000 transform ${
             isConnected ? "translate-x-0" : "translate-x-80"
-          }`}
+          } ${hasShadow ? "translate-y-4" : "translate-y-0"}`}
         >
           {path === "/home" && <Badge label="XTZ Balance" body={`${xtzBalance} ꜩ`} />}
           <Badge label="Sizzle Balance" body="101.65 SZL" />
