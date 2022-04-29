@@ -6,6 +6,7 @@ import { useActions } from "./hooks";
 
 // Components and Pages
 import Home from "./pages/Home";
+import Bond from "./pages/Bond";
 import Tasks from "./pages/Tasks";
 import Logs from "./pages/Logs";
 import Navbar from "./components/Navbar";
@@ -31,6 +32,7 @@ const App = () => {
           <Route path="/logs" element={<Logs />} />
           <Route path="/governance" element={<Governance />} />
           <Route path="/governance/new" element={<NewProposal />} />
+          <Route path="/bond" element={<Bond />} />
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
       </BrowserRouter>

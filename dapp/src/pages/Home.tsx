@@ -18,7 +18,7 @@ const Home = () => {
           Automate recurring smart contract tasks on Tezos by delegating them to S
           <span className="text-secondary">i</span>zzler Network
         </div>
-        <div className="z-10 bg-card py-8 px-12 mb-5 sm:mb-0 shadow-md">
+        <div className="z-10 bg-card py-8 px-12 mb-5 sm:mb-0 shadow-sm">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-6 sm:gap-y-10 font-medium text-xl">
             <div className="flex flex-col gap-y-4 items-center">
               <div className="text-label">Active Tasks</div>

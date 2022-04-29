@@ -12,7 +12,7 @@ const NewTask = () => {
           Back
         </span>
       </Link>
-      <div className="mt-2 p-4 lg:p-10 bg-card shadow-md">
+      <div className="mt-2 p-4 lg:p-10 bg-card">
         {/* Heading */}
         <div className="font-bold text-3xl text-center">
           New T<span className="text-secondary">a</span>sk

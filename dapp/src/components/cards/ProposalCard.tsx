@@ -33,7 +33,7 @@ const ProposalCard = ({
   console.log(quorumGradientString);
 
   return (
-    <div className="bg-card shadow-md py-2">
+    <div className="bg-card shadow-sm py-2">
       {/* Header */}
       <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between px-4 pb-2 gap-3">
         <div className="flex items-center gap-3">
