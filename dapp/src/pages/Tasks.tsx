@@ -11,7 +11,7 @@ const Tasks = () => {
         <Link to="/tasks/new">
           <Button onClick={() => true}>
             <div className="flex items-center justify-center gap-x-3 px-3 py-2 text-sm">
-              <i className="bi bi-plus-circle-fill" />
+              <i className="bi bi-plus-circle" />
               <span>New Task</span>
             </div>
           </Button>

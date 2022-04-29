@@ -86,16 +86,28 @@ const TaskCard = ({
           {/* Actions */}
           <div className="grid sm:inline-grid grid-cols-2 sm:grid-cols-4 gap-3 px-4 pt-2">
             <Button onClick={() => true}>
-              <div className="px-3 py-1 text-sm">Update Tip</div>
+              <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+                <i className="bi bi-cash-coin" />
+                Update Tip
+              </div>
             </Button>
             <Button onClick={() => true}>
-              <div className="px-3 py-1 text-sm">Add Credits</div>
+              <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+                <i className="bi bi-credit-card-2-back" />
+                Add Credits
+              </div>
             </Button>
             <Button onClick={() => true}>
-              <div className="px-3 py-1 text-sm">Withdraw Credits</div>
+              <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+                <i className="bi bi-wallet" />
+                Add Credits
+              </div>
             </Button>
             <Button onClick={() => true}>
-              <div className="px-3 py-1 text-sm">Remove Task</div>
+              <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+                <i className="bi bi-x-square" />
+                Remove Task
+              </div>
             </Button>
           </div>
         </React.Fragment>

@@ -18,7 +18,7 @@ const Navbar = () => {
 
   const { connectWallet } = useActions();
 
-  const { accountPkh, xtzBalance, isConnected } = useTypedSelector((state) => state.wallet);
+  const { accountPkh, isConnected } = useTypedSelector((state) => state.wallet);
 
   const navlinkSegment = NAVLINKS.map((link: string, index) => {
     if (path.includes(link))
@@ -86,11 +86,8 @@ const Navbar = () => {
             isConnected ? "translate-x-0" : "translate-x-80"
           } ${hasShadow ? "translate-y-4" : "translate-y-0"}`}
         >
-          {path === "/home" && <Badge label="XTZ Balance" body={`${xtzBalance} ꜩ`} />}
           <Badge label="Sizzle Balance" body="101.65 SZL" />
-          {(path === "/home" || path === "/bond") && (
-            <Badge label="Quipuswap LP" body="1.34 tQPLP" />
-          )}
+          <Badge label="Quipuswap LP" body="1.34 tQPLP" />
         </div>
       </div>
       {/* Navlinks positioning for mobile screens */}
@@ -105,9 +102,7 @@ const Navbar = () => {
       {isConnected && (
         <div className="flex md:hidden justify-evenly px-5 pb-4 shadow-md">
           <Badge label="Sizzle Balance" body="101.65 SZL" />
-          {(path === "/home" || path === "/bond") && (
-            <Badge label="Quipuswap LP" body="1.34 tQPLP" />
-          )}
+          <Badge label="Quipuswap LP" body="1.34 tQPLP" />
         </div>
       )}
     </div>
