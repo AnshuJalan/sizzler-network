@@ -1,12 +1,14 @@
 export const rpcNode = process.env.REACT_APP_RPC_NODE || "https://ithacanet.smartpy.io/";
 export const network = process.env.REACT_APP_NETWORK || "ithacanet";
 export const explorerURL = process.env.REACT_APP_EXPLORER_URL || "https://ithacanet.tzkt.io";
-export const apiURL = process.env.REACT_APP_API_URL || "https://api.ithacanet.tzkt.io/v1";
-export const szlAddress =
-  process.env.REACT_APP_SZL_ADDRESS || "KT1HXCehRWhZjtJUeWxsii1ywbwwiUAhjp5R";
+export const tzktURL = process.env.REACT_APP_TZKT_URL || "https://api.ithacanet.tzkt.io/v1";
+export const sizzleAddress =
+  process.env.REACT_APP_SIZZLE_ADDRESS || "KT1UDP7Pcp9aA5WsdwkaLtNVuC4DEtoAaABA";
 export const sizzlerManagerAddress =
-  process.env.REACT_APP_SIZZLER_MANAGER_ADDRESS || "KT1SVjk5NLmzjPM1XzCt4tn8ytt3XMuJhE1F";
+  process.env.REACT_APP_SIZZLER_MANAGER_ADDRESS || "KT1SxWYXK4f2CzAQhXPypzka7cWBJyZBkVMt";
 export const taskManagerAddress =
-  process.env.REACT_APP_TASK_MANAGER_ADDRESS || "KT1Bss2coJsFpJhuPM3pGgWAVkkWWvN9rFhb";
+  process.env.REACT_APP_TASK_MANAGER_ADDRESS || "KT1VYmie6yHeUfCquT3aXAr54FxnYWhUNwaa";
 export const minterAddress =
-  process.env.REACT_APP_MINTER_ADDRESS || "KT1L6XCiQ4zwZWNzAjYpa615GusV3MN6uNiN";
+  process.env.REACT_APP_MINTER_ADDRESS || "KT1918cYhgUcGoGHoWw9AEpvZsqmWtKpeqYX";
+export const lpTokenAddress =
+  process.env.REACT_APP_LP_TOKEN_ADDRESS || "KT1FCiZ2uEjcJXBjmExUYcZSXCWVKvL8Ej33";

@@ -1,9 +1,26 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
+
 // Components
 import Button from "../components/Button";
 import TaskCard from "../components/cards/TaskCard";
 
+// Hooks
+import { useActions, useTypedSelector } from "../hooks";
+
 const Tasks = () => {
+  // Actions
+  const { getAllTasks } = useActions();
+
+  // Redux store
+  const { accountPkh } = useTypedSelector((state) => state.wallet);
+  const { tasks } = useTypedSelector((state) => state.tasks);
+
+  // Fetch tasks on page load
+  useEffect(() => {
+    getAllTasks();
+  }, [getAllTasks]);
+
   return (
     <div className="px-5 sm:px-40 mt-44 pb-20">
       {/* Header */}
@@ -25,47 +42,20 @@ const Tasks = () => {
       </div>
       {/* Data */}
       <div className="flex flex-col gap-y-8">
-        <TaskCard
-          creator="tz1eUzpKnk5gKLYw4HWs2sWsynfbT7ypGxNM"
-          contract="KT1L6XCiQ4zwZWNzAjYpa615GusV3MN6uNiN"
-          estimatedFee="0.057"
-          entrypoint="recharge_farm"
-          metadata=""
-          tip="12.5"
-          creditsRemaining="25"
-          lastExecuted="15-04-2022 04:54:12"
-        />
-        <TaskCard
-          creator="tz1eUzpKnk5gKLYw4HWs2sWsynfbT7ypGxNM"
-          contract="KT1L6XCiQ4zwZWNzAjYpa615GusV3MN6uNiN"
-          estimatedFee="0.057"
-          entrypoint="recharge_farm"
-          metadata=""
-          tip="12.5"
-          creditsRemaining="25"
-          lastExecuted="-"
-          isYour
-        />
-        <TaskCard
-          creator="tz1eUzpKnk5gKLYw4HWs2sWsynfbT7ypGxNM"
-          contract="KT1L6XCiQ4zwZWNzAjYpa615GusV3MN6uNiN"
-          estimatedFee="0.057"
-          entrypoint="recharge_farm"
-          metadata=""
-          tip="12.5"
-          creditsRemaining="25"
-          lastExecuted="15-04-2022 04:54:12"
-        />
-        <TaskCard
-          creator="tz1eUzpKnk5gKLYw4HWs2sWsynfbT7ypGxNM"
-          contract="KT1L6XCiQ4zwZWNzAjYpa615GusV3MN6uNiN"
-          estimatedFee="0.057"
-          entrypoint="recharge_farm"
-          metadata=""
-          tip="12.5"
-          creditsRemaining="25"
-          lastExecuted="15-04-2022 04:54:12"
-        />
+        {tasks.map((task, index) => (
+          <TaskCard
+            key={index}
+            owner={task.owner}
+            contract={task.contract}
+            estimatedFee="-"
+            entrypoint="-"
+            metadata={task.metadata}
+            tip={task.tip}
+            creditsRemaining={task.credits}
+            lastExecuted="-"
+            isYour={accountPkh === task.owner}
+          />
+        ))}
       </div>
     </div>
   );

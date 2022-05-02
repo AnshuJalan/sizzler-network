@@ -7,8 +7,11 @@ import Button from "../Button";
 // Hooks
 import { useWindowDimensions } from "../../hooks";
 
+// Globals
+import { explorerURL } from "../../common/global";
+
 interface ITaskCard {
-  creator: string;
+  owner: string;
   contract: string;
   entrypoint: string;
   tip: string;
@@ -20,7 +23,7 @@ interface ITaskCard {
 }
 
 const TaskCard = ({
-  creator,
+  owner,
   contract,
   entrypoint,
   tip,
@@ -39,20 +42,26 @@ const TaskCard = ({
         <div className="flex items-center gap-3">
           <div className="flex items-center">
             <i className="text-icon text-lg bi bi-wallet-fill" />
-            <span className="text-secondary font-semibold ml-2 hover:underline cursor-pointer">
-              {width < 1280 ? `${creator.slice(0, 5)}...${creator.slice(-2)}` : creator}
-            </span>
+            <a href={`${explorerURL}/${owner}`} target="_blank" rel="noreferrer">
+              <span className="text-secondary font-semibold ml-2 hover:underline cursor-pointer">
+                {width < 1280 ? `${owner.slice(0, 5)}...${owner.slice(-2)}` : owner}
+              </span>
+            </a>
           </div>
           <div className="flex items-center">
             <i className="text-icon text-lg bi bi-file-earmark-code-fill" />
-            <span className="text-secondary font-semibold ml-2 hover:underline cursor-pointer">
-              {width < 1280 ? `${contract.slice(0, 5)}...${contract.slice(-2)}` : contract}
-            </span>
+            <a href={`${explorerURL}/${contract}`} target="_blank" rel="noreferrer">
+              <span className="text-secondary font-semibold ml-2 hover:underline cursor-pointer">
+                {width < 1280 ? `${contract.slice(0, 5)}...${contract.slice(-2)}` : contract}
+              </span>
+            </a>
           </div>
         </div>
-        <Tooltip content="View Metadata" className="rounded-t-none rounded-b-none">
-          <i className="bi bi-info-circle-fill text-xl text-info cursor-pointer"></i>
-        </Tooltip>
+        <a href={metadata} target="_blank" rel="noreferrer">
+          <Tooltip content="View Metadata" className="rounded-t-none rounded-b-none">
+            <i className="bi bi-info-circle-fill text-xl text-info cursor-pointer"></i>
+          </Tooltip>
+        </a>
       </div>
       {/* Divider */}
       <div className="bg-label opacity-20 h-0.5" />
@@ -64,7 +73,7 @@ const TaskCard = ({
         </div>
         <div className="flex flex-col items-center gap-y-2">
           <span className="text-label">Estimated Fee</span>
-          <span>{estimatedFee} ꜩ</span>
+          <span>{estimatedFee}</span>
         </div>
         <div className="flex flex-col items-center gap-y-2">
           <span className="text-label">Tip</span>

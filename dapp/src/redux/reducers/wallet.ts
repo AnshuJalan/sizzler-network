@@ -6,13 +6,15 @@ import * as t from "../types";
 
 interface WalletState {
   isConnected: boolean;
-  xtzBalance: string;
+  sizzleBalance: string;
+  lpBalance: string;
   accountPkh: string;
 }
 
 const initialState: WalletState = {
   isConnected: false,
-  xtzBalance: "",
+  sizzleBalance: "0.00",
+  lpBalance: "0.00",
   accountPkh: "",
 };
 
