@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tooltip } from "flowbite-react";
 
 // Components
+import Modal, { IModal } from "../Modal";
 import Button from "../Button";
 
 // Hooks
@@ -33,7 +34,72 @@ const TaskCard = ({
   metadata,
   isYour = false,
 }: ITaskCard) => {
+  const [modal, setModal] = useState<IModal>({
+    show: false,
+    heading: "",
+    label: "",
+    icon: "",
+    value: "",
+    placeholder: "",
+    onChange: () => true,
+    onSubmit: () => true,
+    onClose: () => true,
+  });
+  const [modalInputValue, setModalInputValue] = useState<string>("");
+
   const { width } = useWindowDimensions();
+
+  // Modal openers
+  const openUpdateTipModal = () => {
+    setModal({
+      show: true,
+      heading: "Update Tip",
+      label: "Tip/Task",
+      icon: "cash-coin",
+      value: "",
+      placeholder: "Amount of SZL",
+      onChange: (val: string) => setModalInputValue(val),
+      onSubmit: () => true,
+      onClose: () => {
+        setModal({ ...modal, show: false });
+        setModalInputValue("");
+      },
+    });
+  };
+
+  const openAddCreditsModal = () => {
+    setModal({
+      show: true,
+      heading: "Add Credits",
+      label: "Credits to Add",
+      icon: "credit-card-2-back",
+      value: "",
+      placeholder: "Amount of SZL",
+      onChange: (val: string) => setModalInputValue(val),
+      onSubmit: () => true,
+      onClose: () => {
+        setModal({ ...modal, show: false });
+        setModalInputValue("");
+      },
+    });
+  };
+
+  const openWithdrawCreditsModal = () => {
+    setModal({
+      show: true,
+      heading: "Withdraw Credits",
+      label: "Credits to Withdraw",
+      icon: "wallet",
+      value: "",
+      placeholder: "Amount of SZL",
+      onChange: (val: string) => setModalInputValue(val),
+      onSubmit: () => true,
+      onClose: () => {
+        setModal({ ...modal, show: false });
+        setModalInputValue("");
+      },
+    });
+  };
 
   return (
     <div className="bg-card shadow-sm py-2">
@@ -94,22 +160,22 @@ const TaskCard = ({
           <div className="bg-label opacity-20 h-0.5" />
           {/* Actions */}
           <div className="grid sm:inline-grid grid-cols-2 sm:grid-cols-4 gap-3 px-4 pt-2">
-            <Button onClick={() => true}>
+            <Button onClick={openUpdateTipModal}>
               <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
                 <i className="bi bi-cash-coin" />
                 Update Tip
               </div>
             </Button>
-            <Button onClick={() => true}>
+            <Button onClick={openAddCreditsModal}>
               <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
                 <i className="bi bi-credit-card-2-back" />
                 Add Credits
               </div>
             </Button>
-            <Button onClick={() => true}>
+            <Button onClick={openWithdrawCreditsModal}>
               <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
                 <i className="bi bi-wallet" />
-                Add Credits
+                Withdraw Credits
               </div>
             </Button>
             <Button onClick={() => true}>
@@ -121,6 +187,8 @@ const TaskCard = ({
           </div>
         </React.Fragment>
       )}
+      {/* Modals */}
+      <Modal {...modal} value={modalInputValue} />
     </div>
   );
 };
