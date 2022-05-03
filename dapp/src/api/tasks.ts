@@ -20,8 +20,6 @@ export const getAllTasks = async (): Promise<Task[]> => {
 
   const tasks: Task[] = [];
 
-  console.log(res_.data);
-
   res_.data.forEach((taskItem: any) =>
     tasks.push({
       contract: taskItem.key,

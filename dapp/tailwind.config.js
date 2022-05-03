@@ -16,6 +16,15 @@ module.exports = {
         info: "#F0A500",
         label: "#888888",
       },
+      keyframes: {
+        wiggle: {
+          "0%, 100%": { transform: "rotate(-10deg)" },
+          "50%": { transform: "rotate(10deg)" },
+        },
+      },
+      animation: {
+        wiggle: "wiggle 2s ease-in-out infinite",
+      },
     },
   },
   variants: {

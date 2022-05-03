@@ -9,8 +9,9 @@ import Home from "./pages/Home";
 import Bond from "./pages/Bond";
 import Tasks from "./pages/Tasks";
 import Logs from "./pages/Logs";
-import Navbar from "./components/Navbar";
 import NewTask from "./pages/NewTask";
+import Navbar from "./components/Navbar";
+import Loader from "./components/Loader";
 import Governance from "./pages/Governance";
 import NewProposal from "./pages/NewProposal";
 
@@ -25,6 +26,7 @@ const App = () => {
     <div className="min-h-screen w-full overflow-x-hidden bg-primary font-primary">
       <BrowserRouter>
         <Navbar />
+        <Loader />
         <Routes>
           <Route path="/home" element={<Home />} />
           <Route path="/tasks" element={<Tasks />} />

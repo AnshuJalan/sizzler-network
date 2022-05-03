@@ -62,7 +62,7 @@ const Navbar = () => {
   window.addEventListener("scroll", toggleNavbarShadow);
 
   return (
-    <div className={`fixed z-40 w-full bg-primary ${hasShadow && "md:shadow-md"}`}>
+    <div className={`fixed z-20 w-full bg-primary ${hasShadow && "md:shadow-md"}`}>
       <div className="flex flex-row items-center justify-between px-5 py-4">
         {/* Brand */}
         <Link to="/">
