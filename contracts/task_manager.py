@@ -9,17 +9,19 @@ MinterDummy = sp.io.import_script_from_url("file:helpers/dummy/minter_dummy.py")
 
 class Types:
     TASK = sp.TRecord(
+        entrypoint=sp.TString,
         metadata=sp.TString,
         owner=sp.TAddress,
         tip=sp.TNat,
         credits=sp.TNat,
-    ).layout(("metadata", ("owner", ("tip", "credits"))))
+    ).layout(("entrypoint", ("metadata", ("owner", ("tip", "credits")))))
 
     ADD_TASK_PARAMS = sp.TRecord(
         contract=sp.TAddress,
+        entrypoint=sp.TString,
         owner=sp.TAddress,
         metadata=sp.TString,
-    ).layout(("contract", ("owner", "metadata")))
+    ).layout(("contract", ("entrypoint", ("owner", "metadata"))))
 
 
 class Errors:
@@ -71,6 +73,7 @@ class TaskManager(sp.Contract):
 
         # Add task to storage
         self.data.contract_to_task[params.contract] = sp.record(
+            entrypoint=params.entrypoint,
             metadata=params.metadata,
             owner=params.owner,
             tip=sp.nat(0),
@@ -246,6 +249,7 @@ if __name__ == "__main__":
 
         # When GOVERNOR calls add_task
         scenario += tm.add_task(
+            entrypoint="example",
             contract=Addresses.CONTRACT,
             owner=Addresses.ALICE,
             metadata="ipfs://data",
@@ -255,6 +259,7 @@ if __name__ == "__main__":
         scenario.verify(
             tm.data.contract_to_task[Addresses.CONTRACT]
             == sp.record(
+                entrypoint="example",
                 metadata="ipfs://data",
                 owner=Addresses.ALICE,
                 tip=sp.nat(0),
@@ -277,6 +282,7 @@ if __name__ == "__main__":
             contract_to_task=sp.big_map(
                 l={
                     Addresses.CONTRACT: sp.record(
+                        entrypoint="example",
                         metadata="ipfs://data",
                         owner=Addresses.ALICE,
                         tip=sp.nat(0),
@@ -316,6 +322,7 @@ if __name__ == "__main__":
             contract_to_task=sp.big_map(
                 l={
                     Addresses.CONTRACT: sp.record(
+                        entrypoint="example",
                         metadata="ipfs://data",
                         owner=Addresses.ALICE,
                         tip=sp.nat(0),
@@ -362,6 +369,7 @@ if __name__ == "__main__":
             contract_to_task=sp.big_map(
                 l={
                     Addresses.CONTRACT: sp.record(
+                        entrypoint="example",
                         metadata="ipfs://data",
                         owner=Addresses.ALICE,
                         tip=sp.nat(10),
