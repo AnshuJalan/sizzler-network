@@ -48,7 +48,7 @@ const Tasks = () => {
             owner={task.owner}
             contract={task.contract}
             estimatedFee="-"
-            entrypoint="-"
+            entrypoint={task.entrypoint}
             metadata={task.metadata}
             tip={task.tip}
             creditsRemaining={task.credits}

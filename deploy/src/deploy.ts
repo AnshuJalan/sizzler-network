@@ -27,7 +27,11 @@ export const deploySZL = async (params: DeploySZLParams): Promise<void> => {
     // Set deployment address
     deployedAddresses.SZL = szlAddress;
 
-    fs.writeFile(`${__dirname}/deployedAddresses.json`, JSON.stringify(deployedAddresses), () => {});
+    fs.writeFile(
+      `${__dirname}/deployedAddresses.json`,
+      JSON.stringify(deployedAddresses),
+      () => {}
+    );
 
     console.log("\n-------------------------");
     console.log(` Deployment Completed`);
@@ -95,12 +99,22 @@ export const deployManagers = async (params: DeployManagersParams): Promise<void
     console.log(">>> Task Manager address: ", taskManagerAddress);
 
     // Prepare storage and contract for Minter
-    const minterStorage = `(Pair (Pair "${params.devAddress}" (Pair "${params.admin}" (Pair "1970-01-01T00:00:00Z" "1970-01-01T00:00:00Z"))) (Pair (Pair (Pair ${params.mintingRates.sizzler[0]} ${params.mintingRates.sizzler[1]}) (Pair ${params.mintingRates.dev[0]} ${params.mintingRates.dev[1]})) (Pair "${deployedAddresses.SZL}" "${taskManagerAddress}")))`;
+    const minterStorage = `(Pair (Pair "${params.devAddress}" (Pair "${
+      params.admin
+    }" (Pair "${new Date().toISOString()}" "${new Date().toISOString()}"))) (Pair (Pair (Pair ${
+      params.mintingRates.sizzler[0]
+    } ${params.mintingRates.sizzler[1]}) (Pair ${params.mintingRates.dev[0]} ${
+      params.mintingRates.dev[1]
+    })) (Pair "${deployedAddresses.SZL}" "${taskManagerAddress}")))`;
     const minterContract = contractUtils.loadContract("minter");
 
     // Deploy Minter
     console.log("\n>> [3 / 4] Deploying Minter");
-    const minterAddress = await contractUtils.deployContract(minterContract, minterStorage, params.tezos);
+    const minterAddress = await contractUtils.deployContract(
+      minterContract,
+      minterStorage,
+      params.tezos
+    );
     console.log(">>> Minter address: ", minterAddress);
 
     // Set addresses
@@ -108,7 +122,11 @@ export const deployManagers = async (params: DeployManagersParams): Promise<void
     deployedAddresses.SIZZLER_MANAGER = sizzlerManagerAddress;
     deployedAddresses.MINTER = minterAddress;
 
-    fs.writeFile(`${__dirname}/deployedAddresses.json`, JSON.stringify(deployedAddresses), () => {});
+    fs.writeFile(
+      `${__dirname}/deployedAddresses.json`,
+      JSON.stringify(deployedAddresses),
+      () => {}
+    );
 
     // Contract instances
     const smInstance = await params.tezos.contract.at(sizzlerManagerAddress);
@@ -168,13 +186,21 @@ export const deployGovernor = async (params: DeployGovernorParams): Promise<void
 
     // Deploy Governor
     console.log("\n>> [1 / 2] Deploying Governor");
-    const governorAddress = await contractUtils.deployContract(governorContract, governorStorage, params.tezos);
+    const governorAddress = await contractUtils.deployContract(
+      governorContract,
+      governorStorage,
+      params.tezos
+    );
     console.log(">>> Governor address: ", governorAddress);
 
     // Set address
     deployedAddresses.GOVERNOR = governorAddress;
 
-    fs.writeFile(`${__dirname}/deployedAddresses.json`, JSON.stringify(deployedAddresses), () => {});
+    fs.writeFile(
+      `${__dirname}/deployedAddresses.json`,
+      JSON.stringify(deployedAddresses),
+      () => {}
+    );
 
     const smInstance = await params.tezos.contract.at(deployedAddresses.SIZZLER_MANAGER);
     const tmInstance = await params.tezos.contract.at(deployedAddresses.TASK_MANAGER);

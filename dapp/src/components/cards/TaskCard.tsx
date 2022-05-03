@@ -6,7 +6,13 @@ import Modal, { IModal } from "../Modal";
 import Button from "../Button";
 
 // Hooks
-import { useWindowDimensions } from "../../hooks";
+import { useWindowDimensions, useActions } from "../../hooks";
+
+// Types
+import { Status } from "../../redux/actions/loader";
+
+// Operations
+import { updateTip, addCredits, withdrawCredits, removeTask } from "../../operations/tasks";
 
 // Globals
 import { explorerURL } from "../../common/global";
@@ -40,12 +46,16 @@ const TaskCard = ({
     label: "",
     icon: "",
     value: "",
+    error: false,
     placeholder: "",
     onChange: () => true,
     onSubmit: () => true,
     onClose: () => true,
   });
   const [modalInputValue, setModalInputValue] = useState<string>("");
+  const [modalError, setModalError] = useState<boolean>(false);
+
+  const { setLoader } = useActions();
 
   const { width } = useWindowDimensions();
 
@@ -57,11 +67,13 @@ const TaskCard = ({
       label: "Tip/Task",
       icon: "cash-coin",
       value: "",
+      error: false,
       placeholder: "Amount of SZL",
       onChange: (val: string) => setModalInputValue(val),
-      onSubmit: () => true,
+      onSubmit: onUpdateTip,
       onClose: () => {
         setModal({ ...modal, show: false });
+        setModalError(false);
         setModalInputValue("");
       },
     });
@@ -74,11 +86,13 @@ const TaskCard = ({
       label: "Credits to Add",
       icon: "credit-card-2-back",
       value: "",
+      error: false,
       placeholder: "Amount of SZL",
       onChange: (val: string) => setModalInputValue(val),
-      onSubmit: () => true,
+      onSubmit: onAddCredits,
       onClose: () => {
         setModal({ ...modal, show: false });
+        setModalError(false);
         setModalInputValue("");
       },
     });
@@ -91,14 +105,95 @@ const TaskCard = ({
       label: "Credits to Withdraw",
       icon: "wallet",
       value: "",
+      error: false,
       placeholder: "Amount of SZL",
       onChange: (val: string) => setModalInputValue(val),
-      onSubmit: () => true,
+      onSubmit: onWithdrawCredits,
       onClose: () => {
         setModal({ ...modal, show: false });
+        setModalError(false);
         setModalInputValue("");
       },
     });
+  };
+
+  // Operation utilities
+  const onUpdateTip = async (value: string) => {
+    try {
+      // Error check
+      const numVal = parseFloat(value);
+      if (Number.isNaN(numVal) || numVal === 0) {
+        setModalError(true);
+        return;
+      }
+
+      setLoader(Status.LOADING, "Updating tip...");
+
+      setModal({ ...modal, show: false });
+      setModalError(false);
+
+      await updateTip(contract, value);
+
+      setLoader(Status.SUCCESS, "Tip updated succesfully!");
+    } catch (err: any) {
+      setLoader(Status.FAILURE, err.message);
+    }
+  };
+
+  const onAddCredits = async (value: string) => {
+    try {
+      // Error check
+      const numVal = parseFloat(value);
+      if (Number.isNaN(numVal) || numVal === 0) {
+        setModalError(true);
+        return;
+      }
+
+      setLoader(Status.LOADING, "Adding credits...");
+
+      setModal({ ...modal, show: false });
+      setModalError(false);
+
+      await addCredits(contract, value);
+
+      setLoader(Status.SUCCESS, "Credits added succesfully!");
+    } catch (err: any) {
+      setLoader(Status.FAILURE, err.message);
+    }
+  };
+
+  const onWithdrawCredits = async (value: string) => {
+    try {
+      // Error check
+      const numVal = parseFloat(value);
+      if (Number.isNaN(numVal) || numVal === 0) {
+        setModalError(true);
+        return;
+      }
+
+      setLoader(Status.LOADING, "Withdrawing credits...");
+
+      setModal({ ...modal, show: false });
+      setModalError(false);
+
+      await withdrawCredits(contract, value);
+
+      setLoader(Status.SUCCESS, "Credits withdrawn succesfully!");
+    } catch (err: any) {
+      setLoader(Status.FAILURE, err.message);
+    }
+  };
+
+  const onRemoveTask = async () => {
+    try {
+      setLoader(Status.LOADING, "Removing task...");
+
+      await removeTask(contract);
+
+      setLoader(Status.SUCCESS, "Credits withdrawn succesfully!");
+    } catch (err: any) {
+      setLoader(Status.FAILURE, err.message);
+    }
   };
 
   return (
@@ -138,7 +233,12 @@ const TaskCard = ({
           <span>{entrypoint}</span>
         </div>
         <div className="flex flex-col items-center gap-y-2">
-          <span className="text-label">Estimated Fee</span>
+          <span className="text-label">
+            Estimated Fee{" "}
+            <Tooltip content="Based on last execution" className="rounded-t-none rounded-b-none">
+              <i className="bi bi-info-circle-fill text-sm opacity-70 cursor-pointer"></i>
+            </Tooltip>
+          </span>
           <span>{estimatedFee}</span>
         </div>
         <div className="flex flex-col items-center gap-y-2">
@@ -178,7 +278,7 @@ const TaskCard = ({
                 Withdraw Credits
               </div>
             </Button>
-            <Button onClick={() => true}>
+            <Button onClick={onRemoveTask}>
               <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
                 <i className="bi bi-x-square" />
                 Remove Task
@@ -188,7 +288,7 @@ const TaskCard = ({
         </React.Fragment>
       )}
       {/* Modals */}
-      <Modal {...modal} value={modalInputValue} />
+      <Modal {...modal} error={modalError} value={modalInputValue} />
     </div>
   );
 };

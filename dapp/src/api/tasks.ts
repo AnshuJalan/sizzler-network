@@ -6,7 +6,7 @@ import { taskManagerAddress, tzktURL } from "../common/global";
 
 export interface Task {
   contract: string;
-  entypoint: string | undefined;
+  entrypoint: string;
   metadata: string;
   owner: string;
   tip: string;
@@ -15,7 +15,7 @@ export interface Task {
 
 export const getAllTasks = async (): Promise<Task[]> => {
   const res_: { data: any } = await axios.get(
-    `${tzktURL}/contracts/${taskManagerAddress}/bigmaps/contract_to_task/keys`
+    `${tzktURL}/contracts/${taskManagerAddress}/bigmaps/contract_to_task/keys?active=true`
   );
 
   const tasks: Task[] = [];

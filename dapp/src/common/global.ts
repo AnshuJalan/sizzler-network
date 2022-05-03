@@ -5,10 +5,10 @@ export const tzktURL = process.env.REACT_APP_TZKT_URL || "https://api.ithacanet.
 export const sizzleAddress =
   process.env.REACT_APP_SIZZLE_ADDRESS || "KT1UDP7Pcp9aA5WsdwkaLtNVuC4DEtoAaABA";
 export const sizzlerManagerAddress =
-  process.env.REACT_APP_SIZZLER_MANAGER_ADDRESS || "KT1SxWYXK4f2CzAQhXPypzka7cWBJyZBkVMt";
+  process.env.REACT_APP_SIZZLER_MANAGER_ADDRESS || "KT1JEc5YweDcPt8YnnbjdmQWeZz3MPP9tuZB";
 export const taskManagerAddress =
-  process.env.REACT_APP_TASK_MANAGER_ADDRESS || "KT1VYmie6yHeUfCquT3aXAr54FxnYWhUNwaa";
+  process.env.REACT_APP_TASK_MANAGER_ADDRESS || "KT1AiMtC94HbkZKEi656yPKGBtEvcRY5hqzu";
 export const minterAddress =
-  process.env.REACT_APP_MINTER_ADDRESS || "KT1918cYhgUcGoGHoWw9AEpvZsqmWtKpeqYX";
+  process.env.REACT_APP_MINTER_ADDRESS || "KT1LiMjwF9Z9JhexCjcpdYyqst6s2UQJDPww";
 export const lpTokenAddress =
   process.env.REACT_APP_LP_TOKEN_ADDRESS || "KT1FCiZ2uEjcJXBjmExUYcZSXCWVKvL8Ej33";

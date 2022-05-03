@@ -91,14 +91,15 @@ class TaskManager(sp.Contract):
         )
 
         # Return remaining credits
-        TokenUtils.transfer_FA12(
-            sp.record(
-                token_address=self.data.sizzle_token,
-                from_=sp.self_address,
-                to_=sp.sender,
-                value=self.data.contract_to_task[contract].credits,
+        with sp.if_(self.data.contract_to_task[contract].credits > 0)
+            TokenUtils.transfer_FA12(
+                sp.record(
+                    token_address=self.data.sizzle_token,
+                    from_=sp.self_address,
+                    to_=sp.sender,
+                    value=self.data.contract_to_task[contract].credits,
+                )
             )
-        )
 
         # Remove the task from storage
         del self.data.contract_to_task[contract]

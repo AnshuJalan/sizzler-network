@@ -9,9 +9,10 @@ export interface IModal {
   icon: string;
   label: string;
   value: string;
+  error: boolean;
   placeholder: string;
   onChange: (val: string) => void;
-  onSubmit: () => void;
+  onSubmit: (val: string) => void;
   onClose: () => void;
 }
 
@@ -22,6 +23,7 @@ const Modal = ({
   label,
   value,
   placeholder,
+  error,
   onSubmit,
   onChange,
   onClose,
@@ -59,8 +61,14 @@ const Modal = ({
             onChange={(e) => onChange(e.target.value)}
             className="p-2 bg-primary w-full font-medium placeholder-placeholder placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-secondary"
           />
+          {error && (
+            <span className="font-medium text-sm self-start text-secondary">
+              <i className="bi bi-exclamation-triangle mr-1"></i>
+              Invalid amount of SZL
+            </span>
+          )}
           <div className="mt-6 flex items-center justify-center gap-x-3">
-            <Button onClick={onSubmit}>
+            <Button onClick={() => onSubmit(value)}>
               <div className="flex items-center justify-center gap-x-3 px-3 py-2 text-sm">
                 Confirm
               </div>
