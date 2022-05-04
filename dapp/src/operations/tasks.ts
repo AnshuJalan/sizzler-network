@@ -1,5 +1,5 @@
 import BigNumber from "bignumber.js";
-import * as IPFS from "ipfs-http-client";
+import IPFS from "ipfs-http-client";
 import { WalletParamsWithKind, OpKind } from "@taquito/taquito";
 
 // Tezos instance
@@ -17,7 +17,7 @@ interface INewTask {
 
 export const requestNewTask = async (params: INewTask): Promise<string> => {
   try {
-    const client = IPFS.create({ host: "ipfs.infura.io", port: 5001, protocol: "https" });
+    const client = IPFS({ host: "ipfs.infura.io", port: 5001, protocol: "https" });
     const { cid } = await client.add(JSON.stringify({ ...params }));
 
     const tmInstance = await tezos.wallet.at(taskManagerAddress);
