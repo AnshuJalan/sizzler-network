@@ -1,4 +1,5 @@
 import * as t from "../types";
+import { Sizzler } from "../../api/wallet";
 
 export interface ConnectWalletAction {
   type: t.WalletActionTypes.CONNECT_WALLET;
@@ -6,5 +7,6 @@ export interface ConnectWalletAction {
     sizzleBalance: string;
     lpBalance: string;
     accountPkh: string;
+    sizzler: Sizzler | null;
   };
 }

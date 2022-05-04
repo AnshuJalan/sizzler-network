@@ -16,8 +16,8 @@ const Loader = () => {
   if (status === Status.LOADING)
     return (
       <div className="fixed z-50 flex flex-col items-center justify-center gap-6 h-screen w-full bg-overlay bg-opacity-90">
-        <img src={SizzlerHat} alt="sizzler hat" className="animate-wiggle w-24" />
-        <div className="text-white font-semibold text-3xl">{text}</div>
+        <img src={SizzlerHat} alt="sizzler hat" className="animate-wiggle w-20" />
+        <div className="text-white font-semibold text-2xl">{text}</div>
       </div>
     );
   else if (status === Status.SUCCESS)

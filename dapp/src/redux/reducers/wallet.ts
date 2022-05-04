@@ -1,14 +1,16 @@
 import { Reducer } from "redux";
 
 // Actions and types
-import { WalletAction } from "../actions";
 import * as t from "../types";
+import { WalletAction } from "../actions";
+import { Sizzler } from "../../api/wallet";
 
 interface WalletState {
   isConnected: boolean;
   sizzleBalance: string;
   lpBalance: string;
   accountPkh: string;
+  sizzler: Sizzler | null;
 }
 
 const initialState: WalletState = {
@@ -16,6 +18,7 @@ const initialState: WalletState = {
   sizzleBalance: "0.00",
   lpBalance: "0.00",
   accountPkh: "",
+  sizzler: null,
 };
 
 export const walletReducer: Reducer<WalletState, WalletAction> = (

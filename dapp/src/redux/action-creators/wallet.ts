@@ -5,7 +5,7 @@ import { NetworkType } from "@airgap/beacon-sdk";
 import { wallet } from "../../common/wallet";
 
 // API
-import { getSizzleBalance, getLpBalance } from "../../api/wallet";
+import { getSizzleBalance, getLpBalance, getSizzler } from "../../api/wallet";
 
 // Globals
 import { network } from "../../common/global";
@@ -23,6 +23,7 @@ export const connectWallet =
         const accountPkh = await wallet.getPKH();
         const sizzleBalance = await getSizzleBalance(accountPkh);
         const lpBalance = await getLpBalance(accountPkh);
+        const sizzler = await getSizzler(accountPkh);
 
         dispatch({
           type: t.WalletActionTypes.CONNECT_WALLET,
@@ -30,6 +31,7 @@ export const connectWallet =
             sizzleBalance,
             lpBalance,
             accountPkh,
+            sizzler,
           },
         });
       }
@@ -40,6 +42,7 @@ export const connectWallet =
       const accountPkh = await wallet.getPKH();
       const sizzleBalance = await getSizzleBalance(accountPkh);
       const lpBalance = await getLpBalance(accountPkh);
+      const sizzler = await getSizzler(accountPkh);
 
       dispatch({
         type: t.WalletActionTypes.CONNECT_WALLET,
@@ -47,6 +50,7 @@ export const connectWallet =
           sizzleBalance,
           lpBalance,
           accountPkh,
+          sizzler,
         },
       });
     }

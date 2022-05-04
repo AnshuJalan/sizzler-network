@@ -12,7 +12,7 @@ import { rootReducer } from "./redux/reducers";
 // Style
 import "./index.css";
 
-const store = configureStore({ reducer: rootReducer });
+export const store = configureStore({ reducer: rootReducer });
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
