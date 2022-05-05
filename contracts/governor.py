@@ -17,15 +17,8 @@ DAY = 24 * HOUR
 
 
 class Types:
-    TYPE_VARIANT = sp.TVariant(
-        new_task_request=sp.TUnit,
-        update_system_parameters=sp.TUnit,
-        update_minting_rates=sp.TUnit,
-        update_contract_address=sp.TUnit,
-    )
-
     PROPOSAL = sp.TRecord(
-        type=TYPE_VARIANT,
+        title=sp.TString,
         handler=sp.TAddress,
         description_link=sp.TString,
         proposal_lambda=sp.TLambda(sp.TUnit, sp.TList(sp.TOperation)),
@@ -35,7 +28,7 @@ class Types:
         status=sp.TVariant(voting=sp.TTimestamp, timelocked=sp.TTimestamp, passed=sp.TUnit, failed=sp.TUnit),
     ).layout(
         (
-            "type",
+            "title",
             (
                 "handler",
                 (
@@ -68,12 +61,12 @@ class Types:
     )
 
     PROPOSE_PARAMS = sp.TRecord(
-        type=TYPE_VARIANT,
+        title=sp.TString,
         description_link=sp.TString,
         proposal_lambda=sp.TLambda(sp.TUnit, sp.TList(sp.TOperation)),
     ).layout(
         (
-            "type",
+            "title",
             ("description_link", "proposal_lambda"),
         ),
     )
@@ -156,7 +149,7 @@ class Governor(sp.Contract):
 
         # Prepare the proposal
         proposal = sp.record(
-            type=params.type,
+            title=params.title,
             handler=sp.sender,
             description_link=params.description_link,
             proposal_lambda=params.proposal_lambda,
@@ -314,7 +307,7 @@ if __name__ == "__main__":
 
         # When ALICE (a dummy sizzler) calls propose entrypoint
         scenario += governor.propose(
-            type=sp.variant("update_system_parameters", sp.unit),
+            title="Proposal",
             description_link="ipfs://",
             proposal_lambda=proposal_lambda,
         ).run(
@@ -357,7 +350,7 @@ if __name__ == "__main__":
             proposals=sp.big_map(
                 l={
                     1: sp.record(
-                        type=sp.variant("update_system_parameters", sp.unit),
+                        title="Proposal",
                         handler=Addresses.ALICE,
                         description_link="ipfs://",
                         proposal_lambda=proposal_lambda,
@@ -417,7 +410,7 @@ if __name__ == "__main__":
             proposals=sp.big_map(
                 l={
                     1: sp.record(
-                        type=sp.variant("update_system_parameters", sp.unit),
+                        title="Proposal",
                         handler=Addresses.ALICE,
                         description_link="ipfs://",
                         proposal_lambda=proposal_lambda,
@@ -462,7 +455,7 @@ if __name__ == "__main__":
             proposals=sp.big_map(
                 l={
                     1: sp.record(
-                        type=sp.variant("update_system_parameters", sp.unit),
+                        title="Proposal",
                         handler=Addresses.ALICE,
                         description_link="ipfs://",
                         proposal_lambda=proposal_lambda,
@@ -511,7 +504,7 @@ if __name__ == "__main__":
             proposals=sp.big_map(
                 l={
                     1: sp.record(
-                        type=sp.variant("update_system_parameters", sp.unit),
+                        title="Proposal",
                         handler=Addresses.ALICE,
                         description_link="ipfs://",
                         proposal_lambda=proposal_lambda,
@@ -560,7 +553,7 @@ if __name__ == "__main__":
             proposals=sp.big_map(
                 l={
                     1: sp.record(
-                        type=sp.variant("update_system_parameters", sp.unit),
+                        title="Proposal",
                         handler=Addresses.ALICE,
                         description_link="ipfs://",
                         proposal_lambda=proposal_lambda,
