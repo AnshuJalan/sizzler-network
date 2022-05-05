@@ -91,7 +91,7 @@ class TaskManager(sp.Contract):
         )
 
         # Return remaining credits
-        with sp.if_(self.data.contract_to_task[contract].credits > 0)
+        with sp.if_(self.data.contract_to_task[contract].credits > 0):
             TokenUtils.transfer_FA12(
                 sp.record(
                     token_address=self.data.sizzle_token,

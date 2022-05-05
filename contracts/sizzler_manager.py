@@ -144,8 +144,13 @@ class SizzlerManager(sp.Contract):
                 last_reset_at=sp.timestamp(0),
             )
 
+        sizzler = self.data.sizzlers[sp.sender]
+
         # Update stake based on deposit
-        self.data.sizzlers[sp.sender].stake += self.data.deposits[sp.sender].amount
+        sizzler.stake += self.data.deposits[sp.sender].amount
+
+        # Update tasks limit
+        sizzler.task_limit = sizzler.stake // self.data.task_parameters.lp_tokens_per_task
 
         # Reset deposit amount
         self.data.deposits[sp.sender].amount = 0
@@ -416,12 +421,16 @@ if __name__ == "__main__":
     # confirm_deposit
     ##################
 
-    @sp.add_test(name="confirm_deposit - adds a new sizzler and updates the stake")
+    @sp.add_test(name="confirm_deposit - adds a new sizzler and updates the stake and task limits")
     def test():
         scenario = sp.test_scenario()
 
         # Initialize an existing pending deposit position
         sm = SizzlerManager(
+            task_parameters=sp.record(
+                lp_tokens_per_task=10,
+                task_limit_reset_period=5,
+            ),
             deposits=sp.big_map(
                 l={
                     Addresses.ALICE: sp.record(amount=100, confirmation_at=sp.timestamp(12)),
@@ -436,6 +445,7 @@ if __name__ == "__main__":
 
         # She is registered as a sizzler with correct stake
         scenario.verify(sm.data.sizzlers[Addresses.ALICE].stake == 100)
+        scenario.verify(sm.data.sizzlers[Addresses.ALICE].task_limit == 10)
 
     ###########
     # withdraw
