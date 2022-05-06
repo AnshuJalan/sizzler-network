@@ -52,14 +52,18 @@ export const getSizzler = async (address: string): Promise<Sizzler | null> => {
     `${tzktURL}/contracts/${sizzlerManagerAddress}/bigmaps/withdrawals/keys/${address}`
   );
 
-  if (!res_.data) {
+  if (!res__.data) {
     return null;
   } else {
     return {
-      stake: new BigNumber(res_.data.value.stake).dividedBy(10 ** 6).toFixed(2),
-      votingPower: res_.data.value.task_limit,
-      tasksRemaining: parseInt(res_.data.value.task_limit) - parseInt(res_.data.value.task_counter),
-      lastReset: res_.data.value.last_reset_at,
+      stake: res_.data
+        ? new BigNumber(res_.data.value.stake).dividedBy(10 ** 6).toFixed(2)
+        : "0.00",
+      votingPower: res_.data ? res_.data.value.task_limit : "0",
+      tasksRemaining: res_.data
+        ? parseInt(res_.data.value.task_limit) - parseInt(res_.data.value.task_counter)
+        : 0,
+      lastReset: res_.data ? res_.data.value.last_reset_at : "",
       deposit: res__.data
         ? new BigNumber(res__.data.value.amount).dividedBy(10 ** 6).toFixed(2)
         : "0.00",

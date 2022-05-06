@@ -8,7 +8,6 @@ import { network, rpcNode } from "./global";
 // Beacon Wallet instance
 export const wallet = new BeaconWallet({
   name: "Sizzler Network Dapp",
-  // @ts-ignore - taquito NetworkType does not have Jakartanet reference
   preferredNetwork: network as NetworkType,
 });
 

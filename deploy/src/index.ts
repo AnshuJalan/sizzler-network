@@ -23,12 +23,12 @@ if (deployChoice == 1) {
 // Deploy Managers
 else if (deployChoice == 2) {
   const DECIMALS = 10 ** 18;
-  const SIZZLE_LP_TOKEN = "KT1FCiZ2uEjcJXBjmExUYcZSXCWVKvL8Ej33";
+  const SIZZLE_LP_TOKEN = "KT1Ch3zYoytHEG7j8xZxhH6pki7z1yTVMg4p";
   const SIZZLE_LP_TOKEN_ID = 0;
   const DEPOSIT_DELAY = 300; // 5 minutes
   const WITHDRAW_DELAY = 300;
-  const LP_TOKENS_PER_TASK = 10 ** 6;
-  const TASK_LIMIT_RESET_PERIOD = 600; // 10 minutes
+  const LP_TOKENS_PER_TASK = 1.5 * 10 ** 6;
+  const TASK_LIMIT_RESET_PERIOD = 120; // 2 minutes
   const DEV_ADDRESS = "tz1eUzpKnk5gKLYw4HWs2sWsynfbT7ypGxNM";
   const SIZZLER_RATE = [100 * DECIMALS, 30];
   const DEV_RATE = [20 * DECIMALS, 30];
@@ -53,8 +53,8 @@ else if (deployChoice == 2) {
     },
   });
 } else if (deployChoice == 3) {
-  const VOTING_PERIOD = 900; // 15 minutes
-  const QUORUM_THRESHOLD = 15;
+  const VOTING_PERIOD = 300; // 5 minutes
+  const QUORUM_THRESHOLD = 5;
   const PROPOSAL_THRESHOLD = 1;
   const TIMELOCK_PERIOD = 300; // 5 minutes
 

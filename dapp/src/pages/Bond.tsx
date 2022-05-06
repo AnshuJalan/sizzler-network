@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tooltip } from "flowbite-react";
 
 // Components
@@ -6,6 +6,9 @@ import Button from "../components/Button";
 
 // Hooks
 import { useActions, useTypedSelector } from "../hooks";
+
+// Parameters
+import { parameters as params, Parameters } from "../common/parameters";
 
 // Types
 import { Status } from "../redux/actions/loader";
@@ -28,9 +31,19 @@ const Bond = () => {
   const [depositVal, setDepositVal] = useState<string>("");
   const [withdrawVal, setWithdrawVal] = useState<string>("");
   const [error, setError] = useState<Error | null>(null);
+  const [parameters, setParameters] = useState<Parameters>({
+    depositDelay: 0,
+    withdrawalDelay: 0,
+    lpPerTask: "",
+    resetPeriod: 0,
+  });
 
   const { sizzler } = useTypedSelector((state) => state.wallet);
   const { setLoader } = useActions();
+
+  useEffect(() => {
+    params.then((val) => setParameters(val));
+  }, []);
 
   // deposit operation
   const onDeposit = async () => {
@@ -224,7 +237,7 @@ const Bond = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-5 font-medium p-6">
         <div className="flex flex-col items-center gap-y-2 text-lg">
           <div className="text-label">Min Bond Value</div>
-          <div>1.5 tQPLP</div>
+          <div>{parameters.lpPerTask} tQPLP</div>
         </div>
         <div className="flex flex-col items-center gap-y-2 text-lg">
           <div className="text-label">Sizzlers</div>
@@ -268,9 +281,10 @@ const Bond = () => {
         </div>
       </div>
       <div className="bg-primary p-3 mx-5 mt-3 mb-8 lg:mx-10 font-medium">
-        <i className="bi bi-info-circle-fill text-base text-info cursor-pointer"></i> Every stake of
-        1 tQPLP token, gives you 1 voting power and 1 task limit every 12 hours. Deposits and
-        withdrawals take 12 hours to confirm.
+        <i className="bi bi-info-circle-fill text-base text-info cursor-pointer"></i> Every stake of{" "}
+        {parameters.lpPerTask} tQPLP token, gives you 1 voting power and 1 task limit every{" "}
+        {parameters.resetPeriod} minutes. Deposits and withdrawals take {parameters.depositDelay}{" "}
+        minutes to confirm.
       </div>
       <div className="flex text-center justify-center gap-x-4 font-medium text">
         <div onClick={() => setSelected(0)} className="flex flex-col items-center gap-y-1">
