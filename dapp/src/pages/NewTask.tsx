@@ -51,6 +51,11 @@ const NewTask = () => {
         return;
       }
 
+      if (description.length < 120) {
+        setError(Error.DESCRIPTION);
+        return;
+      }
+
       setLoader(Status.LOADING, "Requesting new task...");
 
       // Create a contract instance to check for entrypoint correctness
@@ -58,11 +63,7 @@ const NewTask = () => {
 
       if (!contractInstance.entrypoints.entrypoints[entrypoint]) {
         setError(Error.ENTRYPOINT);
-        return;
-      }
-
-      if (description.length < 120) {
-        setError(Error.DESCRIPTION);
+        setLoader(null);
         return;
       }
 

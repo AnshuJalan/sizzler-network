@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Tooltip } from "flowbite-react";
 
 // Operations
@@ -12,11 +12,13 @@ import { useActions } from "../../hooks";
 
 // Components
 import Button from "../Button";
+import Metadata from "../Metadata";
 
 interface IProposalCard {
   proposalId: string;
   title: string;
   descriptionLink: string;
+  lambda: string;
   sizzler: string;
   upVotes: number;
   downVotes: number;
@@ -27,11 +29,14 @@ const ProposalCard = ({
   proposalId,
   title,
   descriptionLink,
+  lambda,
   sizzler,
   upVotes,
   downVotes,
   status,
 }: IProposalCard) => {
+  const [showMetadata, setShowMetadata] = useState<boolean>(false);
+
   const { setLoader } = useActions();
 
   const onUpVote = async () => {
@@ -134,7 +139,10 @@ const ProposalCard = ({
         <div className="flex items-center gap-3">
           <div className="flex items-center">
             <i className="text-icon text-lg bi bi-bank2" />
-            <span className="text-secondary font-semibold ml-2 hover:underline cursor-pointer">
+            <span
+              onClick={() => setShowMetadata(true)}
+              className="text-secondary font-semibold ml-2 hover:underline cursor-pointer"
+            >
               {title}
             </span>
           </div>
@@ -179,43 +187,50 @@ const ProposalCard = ({
         </div>
       </div>
 
-      <React.Fragment>
-        {/* Divider */}
-        <div className="bg-label opacity-20 h-0.5" />
-        {/* Actions */}
-        <div className="grid sm:inline-grid grid-cols-2 sm:grid-cols-5 gap-3 px-4 pt-2">
-          <Button onClick={onUpVote}>
-            <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
-              <i className="bi bi-hand-thumbs-up" />
-              Up Vote
-            </div>
-          </Button>
-          <Button onClick={onDownVote}>
-            <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
-              <i className="bi bi-hand-thumbs-down" />
-              Down Vote
-            </div>
-          </Button>
-          <Button onClick={onEndVoting}>
-            <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
-              <i className="bi bi-stopwatch" />
-              End Voting
-            </div>
-          </Button>
-          <Button onClick={onExecute}>
-            <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
-              <i className="bi bi-check-square" />
-              Execute
-            </div>
-          </Button>
-          <Button onClick={onRemove}>
-            <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
-              <i className="bi bi-x-square" />
-              Remove
-            </div>
-          </Button>
-        </div>
-      </React.Fragment>
+      {/* Divider */}
+      <div className="bg-label opacity-20 h-0.5" />
+      {/* Actions */}
+      <div className="grid sm:inline-grid grid-cols-2 sm:grid-cols-5 gap-3 px-4 pt-2">
+        <Button onClick={onUpVote}>
+          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+            <i className="bi bi-hand-thumbs-up" />
+            Up Vote
+          </div>
+        </Button>
+        <Button onClick={onDownVote}>
+          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+            <i className="bi bi-hand-thumbs-down" />
+            Down Vote
+          </div>
+        </Button>
+        <Button onClick={onEndVoting}>
+          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+            <i className="bi bi-stopwatch" />
+            End Voting
+          </div>
+        </Button>
+        <Button onClick={onExecute}>
+          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+            <i className="bi bi-check-square" />
+            Execute
+          </div>
+        </Button>
+        <Button onClick={onRemove}>
+          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+            <i className="bi bi-x-square" />
+            Remove
+          </div>
+        </Button>
+      </div>
+      {/* Metadata Popup */}
+      <Metadata
+        show={showMetadata}
+        onClose={() => setShowMetadata(false)}
+        descriptionLink={descriptionLink}
+        title={title}
+        id={proposalId}
+        lambda={lambda}
+      />
     </div>
   );
 };

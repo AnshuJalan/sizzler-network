@@ -5,6 +5,9 @@ import { WalletParamsWithKind, OpKind } from "@taquito/taquito";
 // Tezos instance
 import { tezos } from "../common/wallet";
 
+// Operations
+import { propose } from "./governance";
+
 // Globals
 import { taskManagerAddress, sizzleAddress } from "../common/global";
 
@@ -20,18 +23,73 @@ export const requestNewTask = async (params: INewTask): Promise<string> => {
     const client = IPFS({ host: "ipfs.infura.io", port: 5001, protocol: "https" });
     const { cid } = await client.add(JSON.stringify({ ...params }));
 
-    const tmInstance = await tezos.wallet.at(taskManagerAddress);
+    const proposalLambda = [
+      { prim: "NIL", args: [{ prim: "operation" }] },
+      {
+        prim: "PUSH",
+        args: [{ prim: "address" }, { string: taskManagerAddress }],
+      },
+      {
+        prim: "CONTRACT",
+        args: [
+          {
+            prim: "pair",
+            args: [
+              { prim: "address", annots: ["%contract"] },
+              {
+                prim: "pair",
+                args: [
+                  { prim: "string", annots: ["%entrypoint"] },
+                  {
+                    prim: "pair",
+                    args: [
+                      { prim: "address", annots: ["%owner"] },
+                      { prim: "string", annots: ["%metadata"] },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+        annots: ["%add_task"],
+      },
+      {
+        prim: "IF_NONE",
+        args: [
+          [{ prim: "PUSH", args: [{ prim: "int" }, { int: "23" }] }, { prim: "FAILWITH" }],
+          [],
+        ],
+      },
+      { prim: "PUSH", args: [{ prim: "mutez" }, { int: "0" }] },
+      {
+        prim: "PUSH",
+        args: [{ prim: "string" }, { string: `https://ipfs.infura.io/ipfs/${cid}` }],
+      },
+      {
+        prim: "PUSH",
+        args: [{ prim: "address" }, { string: params.owner }],
+      },
+      { prim: "PUSH", args: [{ prim: "string" }, { string: params.entrypoint }] },
+      {
+        prim: "PUSH",
+        args: [{ prim: "address" }, { string: params.contract }],
+      },
+      { prim: "PAIR", args: [{ int: "4" }] },
+      { prim: "DIG", args: [{ int: "4" }] },
+      { prim: "DROP" },
+      { prim: "TRANSFER_TOKENS" },
+      { prim: "CONS" },
+    ];
 
-    const op = await tmInstance.methods
-      .add_task(
-        params.contract,
-        params.entrypoint,
-        params.owner,
-        `https://ipfs.infura.io/ipfs/${cid}`
-      )
-      .send();
-    await op.confirmation(1);
-    return op.opHash;
+    // New task requests are sent for approval as proposals
+    const opHash = await propose({
+      title: "New Task Request",
+      description: params.description,
+      lambda: proposalLambda,
+    });
+
+    return opHash;
   } catch (err) {
     throw err;
   }

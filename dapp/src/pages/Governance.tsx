@@ -45,6 +45,7 @@ const Governance = () => {
             proposalId={proposal.ID}
             title={proposal.title}
             descriptionLink={proposal.descriptionLink}
+            lambda={proposal.lambda}
             sizzler={proposal.handler}
             upVotes={proposal.upVotes}
             downVotes={proposal.downVotes}

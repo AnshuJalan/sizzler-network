@@ -15,7 +15,7 @@ import { Status } from "../../redux/actions/loader";
 import { updateTip, addCredits, withdrawCredits, removeTask } from "../../operations/tasks";
 
 // Globals
-import { explorerURL } from "../../common/global";
+import { bcdURL, explorerURL } from "../../common/global";
 
 interface ITaskCard {
   owner: string;
@@ -211,7 +211,11 @@ const TaskCard = ({
           </div>
           <div className="flex items-center">
             <i className="text-icon text-lg bi bi-file-earmark-code-fill" />
-            <a href={`${explorerURL}/${contract}`} target="_blank" rel="noreferrer">
+            <a
+              href={`${bcdURL}/${contract}/interact/${entrypoint}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               <span className="text-secondary font-semibold ml-2 hover:underline cursor-pointer">
                 {width < 1280 ? `${contract.slice(0, 5)}...${contract.slice(-2)}` : contract}
               </span>

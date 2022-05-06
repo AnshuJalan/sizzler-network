@@ -7,6 +7,7 @@ export interface Proposal {
   ID: string;
   title: string;
   descriptionLink: string;
+  lambda: string;
   upVotes: number;
   downVotes: number;
   handler: string;
@@ -25,14 +26,13 @@ export const getAllProposals = async (): Promise<Proposal[]> => {
       ID: proposal.key,
       title: proposal.value.title,
       descriptionLink: proposal.value.description_link,
+      lambda: proposal.value.proposal_lambda,
       upVotes: parseInt(proposal.value.up_votes),
       downVotes: parseInt(proposal.value.down_votes),
       handler: proposal.value.handler,
       status: proposal.value.status,
     });
   });
-
-  console.log(proposals);
 
   return proposals;
 };
