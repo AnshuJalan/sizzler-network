@@ -1,14 +1,22 @@
-import mongoose from "mongoose";
+import mongoose, { Schema, Types } from "mongoose";
 
-const logModel = new mongoose.Schema({
+interface Log {
+  task: Types.ObjectId;
+  sizzler: string;
+  sizzleMinted: string;
+  tip: string;
+  completedAt: Date;
+}
+
+const logModel = new mongoose.Schema<Log>({
   task: {
-    type: "ObjectId",
+    type: Schema.Types.ObjectId,
     ref: "Task",
   },
   sizzler: {
     type: String,
   },
-  szlMinted: {
+  sizzleMinted: {
     type: String,
   },
   tip: {
@@ -19,4 +27,4 @@ const logModel = new mongoose.Schema({
   },
 });
 
-export default mongoose.model("Log", logModel);
+export default mongoose.model<Log>("Log", logModel);

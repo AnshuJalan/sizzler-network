@@ -30,3 +30,20 @@ export interface ContractToTaskBigMapUpdate {
     };
   };
 }
+
+export interface TaskCompletionOperation {
+  hash: string;
+  timestamp: string;
+  sender: {
+    address: string;
+  };
+  parameter: {
+    value: string;
+  };
+}
+
+export interface TaskOperationDetails {
+  tip: number;
+  sizzleMinted: number;
+  fee: number;
+}

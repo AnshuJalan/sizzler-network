@@ -11,16 +11,18 @@ export class TzktProvider {
 
   getOperationByHash = async (hash: string): Promise<any> => {
     try {
-      const res = await axios.get(`${this._tzktURL}/operations/transaction/${hash}?status=applied`);
+      const res = await axios.get(
+        `${this._tzktURL}/operations/transactions/${hash}?status=applied`
+      );
       return res.data;
     } catch (err) {
       throw err;
     }
   };
 
-  getOperationByContract = async (options: GetOperationByContractOptions): Promise<any> => {
+  getOperationByContract = async <T>(options: GetOperationByContractOptions): Promise<T[]> => {
     try {
-      const res = await axios.get(`${this._tzktURL}/operations/transaction`, {
+      const res = await axios.get(`${this._tzktURL}/operations/transactions`, {
         params: {
           contract: options.contract,
           entrypoint: options.entrypoint,
