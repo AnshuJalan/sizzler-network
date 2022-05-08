@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { GetBigMapUpdatesOptions, GetOperationOptions } from "../types";
+import { GetBigMapUpdatesOptions, GetOperationByContractOptions } from "../types";
 
 export class TzktProvider {
   private _tzktURL: string;
@@ -9,10 +9,36 @@ export class TzktProvider {
     this._tzktURL = tzktURL;
   }
 
-  getOperation = async (options: GetOperationOptions): Promise<any> => {
+  getOperationByHash = async (hash: string): Promise<any> => {
+    try {
+      const res = await axios.get(`${this._tzktURL}/operations/transaction/${hash}?status=applied`);
+      return res.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  getOperationByContract = async (options: GetOperationByContractOptions): Promise<any> => {
+    try {
+      const res = await axios.get(`${this._tzktURL}/operations/transaction`, {
+        params: {
+          contract: options.contract,
+          entrypoint: options.entrypoint,
+          [`level.ge`]: options.firstLevel,
+          [`level.le`]: options.lastLevel,
+          status: "applied",
+        },
+      });
+      return res.data;
+    } catch (err) {
+      throw err;
+    }
+  };
+
+  getBigMapUpdates = async <T>(options: GetBigMapUpdatesOptions): Promise<T[]> => {
     try {
       const res = await axios.get(
-        `${this._tzktURL}/operations/transaction${this._formatQueries(options)}`
+        `${this._tzktURL}/bigmaps/updates?bigmap=${options.id}&level.ge=${options.firstLevel}&level.le=${options.lastLevel}`
       );
       return res.data;
     } catch (err) {
@@ -20,29 +46,21 @@ export class TzktProvider {
     }
   };
 
-  getBigMapUpdates = async (options: GetBigMapUpdatesOptions): Promise<any> => {
+  getBigMapLevels = async (id: string): Promise<[number, number]> => {
     try {
-      const res = await axios.get(
-        `${this._tzktURL}/bigmaps/updates?bigmap=${options.id}&level=${options.level}`
-      );
-      return res.data;
+      const res = await axios.get(`${this._tzktURL}/bigmaps/${id}`);
+      return [res.data.firstLevel, res.data.lastLevel];
     } catch (err) {
       throw err;
     }
   };
 
-  private _formatQueries = (options: GetOperationOptions): string => {
-    if (options.hash) {
-      return `/${options.hash}`;
-    } else {
-      let queryString = `?${options.contract}`;
-      if (options.entrypoint) {
-        queryString += `&${options.entrypoint}`;
-      }
-      if (options.level) {
-        queryString += `&${options.level}`;
-      }
-      return queryString;
+  getContractLevels = async (contract: string): Promise<[number, number]> => {
+    try {
+      const res = await axios.get(`${this._tzktURL}/contracts/${contract}`);
+      return [res.data.firstActivity, res.data.lastActivity];
+    } catch (err) {
+      throw err;
     }
   };
 }

@@ -1,9 +1,10 @@
-export const config: { [key: string]: string | number } = {
+export const config: { [key: string]: string } = {
   // URLs
-  tzktURL: "https://ithacanet.api.tzkt.io/v1",
+  tzktURL: "https://api.ithacanet.tzkt.io/v1",
+  mongodbURL: "mongodb://localhost:27017/sizzler-network",
 
   // Bigmap IDs
-  contractToTask: 66360,
+  contractToTask: "66360",
 
   // Contracts
   taskManager: "KT1STHzVN5ixVVgZBdVNxButWdEDu6Jdj9hN",

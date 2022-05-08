@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "axios": "^0.27.2",
-    "cron": "^2.0.0"
+    "cron": "^2.0.0",
+    "mongoose": "^6.3.2"
   }
 }
