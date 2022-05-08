@@ -1,0 +1,18 @@
+{
+  "name": "sizzler-indexer",
+  "version": "1.0.0",
+  "description": "Typescript based indexer for Sizzler Network",
+  "main": "index.ts",
+  "author": "Anshu Jalan",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@types/cron": "^1.7.3",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.4"
+  },
+  "dependencies": {
+    "axios": "^0.27.2",
+    "cron": "^2.0.0"
+  }
+}
