@@ -31,6 +31,30 @@ export interface ContractToTaskBigMapUpdate {
   };
 }
 
+export interface SizzlersBigMapUpdate {
+  action: BigMapUpdateActions;
+  content: {
+    key: string;
+    value: {
+      stake: string;
+      task_limit: string;
+      task_counter: string;
+      last_reset_at: string;
+    };
+  };
+}
+
+export interface DepositWithdrawalBigMapUpdate {
+  action: BigMapUpdateActions;
+  content: {
+    key: string;
+    value: {
+      amount: string;
+      confirmation_at: string;
+    };
+  };
+}
+
 export interface TaskCompletionOperation {
   hash: string;
   timestamp: string;

@@ -5,6 +5,9 @@ export const config = {
 
   // Bigmap IDs
   contractToTask: "66360",
+  sizzlers: "66358",
+  deposits: "66357",
+  withdrawals: "66359",
 
   // Contracts
   taskManager: "KT1STHzVN5ixVVgZBdVNxButWdEDu6Jdj9hN",

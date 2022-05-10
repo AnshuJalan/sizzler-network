@@ -18,19 +18,26 @@ export const initDB = async (tzktProvider: TzktProvider): Promise<void> => {
   try {
     const existingMeta = await Meta.findOne();
     if (!existingMeta) {
-      const taskBigMapLevels = await tzktProvider.getBigMapLevels(config.contractToTask);
+      const tasksBigMapLevels = await tzktProvider.getBigMapLevels(config.contractToTask);
+      const sizzlersBigMapLevels = await tzktProvider.getBigMapLevels(config.deposits);
       const meta = new Meta({
-        taskIndexLastLevel: taskBigMapLevels[0],
-        logIndexLastLevel: taskBigMapLevels[0],
+        taskIndexLastLevel: tasksBigMapLevels[0],
+        logIndexLastLevel: tasksBigMapLevels[0],
+        sizzlerIndex: {
+          mainLastLevel: sizzlersBigMapLevels[0],
+          depositsLastLevel: sizzlersBigMapLevels[0],
+          withdrawalsLastLevel: sizzlersBigMapLevels[0],
+        },
       });
       await meta.save();
-      console.log(`> Initialized genesis indexing level ${taskBigMapLevels[0]}`);
+      console.log(
+        `> Initialized genesis indexing level for tasks and logs as ${tasksBigMapLevels[0]}`
+      );
+      console.log(
+        `> Initialized genesis indexing level for sizzlers as ${sizzlersBigMapLevels[0]}`
+      );
     }
   } catch (err) {
     throw err;
   }
 };
-
-// Export all models
-export * from "./models/Task";
-export * from "./models/Log";

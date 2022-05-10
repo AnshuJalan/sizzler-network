@@ -16,14 +16,14 @@ export class TasksIndexer {
     try {
       const [firstLevel, lastLevel] = await this._getIndexingLevels();
       if (firstLevel === lastLevel) return;
-      const taskBigMapUpdates =
+      const tasksBigMapUpdates =
         await this._tzktProvider.getBigMapUpdates<ContractToTaskBigMapUpdate>({
           id: config.contractToTask,
           firstLevel: firstLevel + 1,
           lastLevel,
         });
 
-      for (const update of taskBigMapUpdates) {
+      for (const update of tasksBigMapUpdates) {
         switch (update.action) {
           case BigMapUpdateActions.ADD_KEY: {
             const task = new Task({
