@@ -16,7 +16,7 @@ export class Crontab {
             try {
               await job();
             } catch (err) {
-              console.error(err);
+              console.error(err.message);
             } finally {
               isTaskRunning = false;
             }

@@ -36,6 +36,7 @@ export class LogsIndexer {
         });
         const log = new this._models.log({
           task: task._id,
+          opHash: op.hash,
           sizzler: op.parameter.value,
           sizzleMinted: opDetails.sizzleMinted,
           tip: opDetails.tip,
