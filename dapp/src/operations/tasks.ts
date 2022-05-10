@@ -11,14 +11,14 @@ import { propose } from "./governance";
 // Globals
 import { taskManagerAddress, sizzleAddress } from "../common/global";
 
-interface INewTask {
+interface NewTaskParams {
   owner: string;
   contract: string;
   entrypoint: string;
   description: string;
 }
 
-export const requestNewTask = async (params: INewTask): Promise<string> => {
+export const requestNewTask = async (params: NewTaskParams): Promise<string> => {
   try {
     const client = IPFS({ host: "ipfs.infura.io", port: 5001, protocol: "https" });
     const { cid } = await client.add(JSON.stringify({ ...params }));

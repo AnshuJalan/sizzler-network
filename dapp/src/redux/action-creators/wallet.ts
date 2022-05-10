@@ -5,7 +5,8 @@ import { NetworkType } from "@airgap/beacon-sdk";
 import { wallet } from "../../common/wallet";
 
 // API
-import { getSizzleBalance, getLpBalance, getSizzler } from "../../api/wallet";
+import { getSizzleBalance, getLpBalance } from "../../api/wallet";
+import { getSizzler } from "../../api/sizzler";
 
 // Globals
 import { network } from "../../common/global";

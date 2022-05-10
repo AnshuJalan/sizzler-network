@@ -4,7 +4,7 @@ import { Tooltip } from "flowbite-react";
 // Hooks
 import { useWindowDimensions } from "../../hooks";
 
-interface ILogCard {
+interface LogCardProps {
   headerIcon: string;
   headerText: string;
   headerLink: string;
@@ -20,7 +20,7 @@ const LogCard = ({
   operationHash,
   bodyData,
   metadata,
-}: ILogCard) => {
+}: LogCardProps) => {
   const { width } = useWindowDimensions();
 
   return (

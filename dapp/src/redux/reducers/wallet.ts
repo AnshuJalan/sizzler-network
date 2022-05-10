@@ -3,7 +3,7 @@ import { Reducer } from "redux";
 // Actions and types
 import * as t from "../types";
 import { WalletAction } from "../actions";
-import { Sizzler } from "../../api/wallet";
+import { Sizzler } from "../../api/sizzler";
 
 interface WalletState {
   isConnected: boolean;

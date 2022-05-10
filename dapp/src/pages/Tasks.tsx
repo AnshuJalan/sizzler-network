@@ -9,10 +9,8 @@ import TaskCard from "../components/cards/TaskCard";
 import { useActions, useTypedSelector } from "../hooks";
 
 const Tasks = () => {
-  // Actions
   const { getAllTasks } = useActions();
 
-  // Redux store
   const { accountPkh } = useTypedSelector((state) => state.wallet);
   const { tasks } = useTypedSelector((state) => state.tasks);
 

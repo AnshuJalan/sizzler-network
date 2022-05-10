@@ -14,13 +14,10 @@ const NAVLINKS = ["home", "tasks", "logs", "governance", "bond"];
 const Navbar = () => {
   const path = useLocation().pathname;
 
-  // Local state
   const [hasShadow, setHasShadow] = useState<boolean>();
 
-  // Actions
   const { connectWallet } = useActions();
 
-  // Redux store
   const { accountPkh, sizzleBalance, lpBalance, isConnected } = useTypedSelector(
     (state) => state.wallet
   );

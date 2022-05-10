@@ -8,7 +8,7 @@ import { useActions } from "../hooks";
 import { Status } from "../redux/actions/loader";
 
 // Operations
-import { propose, IPropose } from "../operations/governance";
+import { propose, ProposeParams } from "../operations/governance";
 
 // Components
 import Button from "../components/Button";
@@ -43,7 +43,7 @@ const NewProposal = () => {
         return;
       }
 
-      const params: IPropose = {
+      const params: ProposeParams = {
         title,
         description,
         lambda: JSON.parse(lambda.replace(" ", "")),

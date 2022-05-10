@@ -26,14 +26,12 @@ enum Error {
 }
 
 const NewTask = () => {
-  // State
   const [owner, setOwner] = useState<string>("");
   const [contract, setContract] = useState<string>("");
   const [entrypoint, setEntrypoint] = useState<string>("");
   const [description, setDescription] = useState<string>("");
   const [error, setError] = useState<Error | null>(null);
 
-  // Actions
   const { setLoader } = useActions();
 
   // Verifies inputs and sends relevant operation to the chain

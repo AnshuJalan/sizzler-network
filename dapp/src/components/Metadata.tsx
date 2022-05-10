@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect, useRef } from "react";
 import { Parser, emitMicheline } from "@taquito/michel-codec";
 
-interface IMetadata {
+interface MetadataProps {
   show: boolean;
   id: string;
   title: string;
@@ -12,7 +12,7 @@ interface IMetadata {
 }
 
 // Proposal metadata modal
-const Metadata = ({ show, id, title, descriptionLink, lambda, onClose }: IMetadata) => {
+const Metadata = ({ show, id, title, descriptionLink, lambda, onClose }: MetadataProps) => {
   const ref = useRef<any>();
 
   const [description, setDescription] = useState<string>("");

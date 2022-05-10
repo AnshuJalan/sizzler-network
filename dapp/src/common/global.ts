@@ -3,6 +3,7 @@ export const network = process.env.REACT_APP_NETWORK || "ithacanet";
 export const explorerURL = process.env.REACT_APP_EXPLORER_URL || "https://ithacanet.tzkt.io";
 export const tzktURL = process.env.REACT_APP_TZKT_URL || "https://api.ithacanet.tzkt.io/v1";
 export const bcdURL = process.env.REACT_APP_BCD_URL || "https://better-call.dev/ithacanet";
+export const indexerURL = process.env.REACT_APP_INDEXER_URL || "http://localhost:3001";
 export const sizzleAddress =
   process.env.REACT_APP_SIZZLE_ADDRESS || "KT1EAtFSR9jGP9oK7Nm6hXg4Xpmz4iXMXPFx";
 export const sizzlerManagerAddress =

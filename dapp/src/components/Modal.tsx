@@ -3,7 +3,7 @@ import { Fragment, useRef } from "react";
 // Components
 import Button from "./Button";
 
-export interface IModal {
+export interface ModalProps {
   show: boolean;
   heading: string;
   icon: string;
@@ -27,7 +27,7 @@ const Modal = ({
   onSubmit,
   onChange,
   onClose,
-}: IModal) => {
+}: ModalProps) => {
   const ref = useRef<any>();
 
   const onModalClose = (e: any) => {

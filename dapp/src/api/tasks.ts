@@ -2,7 +2,7 @@ import axios from "axios";
 import BigNumber from "bignumber.js";
 
 // Globals
-import { taskManagerAddress, tzktURL } from "../common/global";
+import { indexerURL } from "../common/global";
 
 export interface Task {
   contract: string;
@@ -14,20 +14,17 @@ export interface Task {
 }
 
 export const getAllTasks = async (): Promise<Task[]> => {
-  const res_: { data: any } = await axios.get(
-    `${tzktURL}/contracts/${taskManagerAddress}/bigmaps/contract_to_task/keys?active=true`
-  );
+  const res_: { data: any } = await axios.get(`${indexerURL}/tasks`);
 
   const tasks: Task[] = [];
 
-  res_.data.forEach((taskItem: any) =>
+  res_.data.forEach((taskItem: any) => {
     tasks.push({
-      contract: taskItem.key,
-      ...taskItem.value,
-      tip: new BigNumber(taskItem.value.tip).dividedBy(10 ** 18).toFixed(2),
-      credits: new BigNumber(taskItem.value.credits).dividedBy(10 ** 18).toFixed(2),
-    })
-  );
+      ...taskItem,
+      tip: new BigNumber(taskItem.tip).dividedBy(10 ** 18).toFixed(2),
+      credits: new BigNumber(taskItem.credits).dividedBy(10 ** 18).toFixed(2),
+    });
+  });
 
   return tasks;
 };

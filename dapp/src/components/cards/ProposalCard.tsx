@@ -14,7 +14,7 @@ import { useActions } from "../../hooks";
 import Button from "../Button";
 import Metadata from "../Metadata";
 
-interface IProposalCard {
+interface ProposalCardProps {
   proposalId: string;
   title: string;
   descriptionLink: string;
@@ -34,7 +34,7 @@ const ProposalCard = ({
   upVotes,
   downVotes,
   status,
-}: IProposalCard) => {
+}: ProposalCardProps) => {
   const [showMetadata, setShowMetadata] = useState<boolean>(false);
 
   const { setLoader } = useActions();

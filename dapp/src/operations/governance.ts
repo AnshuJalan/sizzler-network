@@ -9,13 +9,13 @@ import { store } from "..";
 // Globals
 import { governorAddress } from "../common/global";
 
-export interface IPropose {
+export interface ProposeParams {
   title: string;
   lambda: Array<any>;
   description: string;
 }
 
-export const propose = async (params: IPropose): Promise<string> => {
+export const propose = async (params: ProposeParams): Promise<string> => {
   try {
     const client = IPFS({ host: "ipfs.infura.io", port: 5001, protocol: "https" });
     const { cid } = await client.add(

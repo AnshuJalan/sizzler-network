@@ -114,11 +114,11 @@ const Bond = () => {
   const depositSection = (
     <React.Fragment>
       {/* Confirm deposit header */}
-      {sizzler && sizzler.deposit !== "0.00" && (
+      {sizzler && sizzler.deposit && (
         <div className="inline-flex flex-col md:flex-row items-center justify-between gap-x-3 gap-y-3 border-2 border-secondary p-4 mt-8">
           <div className="font-medium">
             You can confirm your deposit after:{" "}
-            {new Date(sizzler.depositConfirmation).toLocaleString()}
+            {new Date(sizzler.deposit.confirmationAt).toLocaleString()}
           </div>
           <Button onClick={onDepositConfirm}>
             <div className="flex items-center justify-center gap-x-3 px-3 py-2 text-sm">
@@ -149,7 +149,7 @@ const Bond = () => {
           </div>
         )}
         {/* Confirmation delay warning */}
-        {sizzler && sizzler.deposit !== "0.00" && (
+        {sizzler && sizzler.deposit && (
           <div className="text-secondary text-sm mt-1 px-5 self-start">
             <i className="bi bi-exclamation-triangle"></i>
             You have a pending deposit confirmation. Confirm it before depositing more to prevent
@@ -170,11 +170,11 @@ const Bond = () => {
   const withdrawSection = (
     <React.Fragment>
       {/* Confirm withdrawal header */}
-      {sizzler && sizzler.withdrawal !== "0.00" && (
+      {sizzler && sizzler.withdrawal && (
         <div className="inline-flex flex-col md:flex-row items-center justify-between gap-x-3 gap-y-3 border-2 border-secondary p-4 mt-8">
           <div className="font-medium">
             You can confirm your withdrawal after:{" "}
-            {new Date(sizzler.withdrawalConfirmation).toLocaleString()}
+            {new Date(sizzler.withdrawal.confirmationAt).toLocaleString()}
           </div>
           <Button onClick={onWithdrawalConfirm}>
             <div className="flex items-center justify-center gap-x-3 px-3 py-2 text-sm">
@@ -205,7 +205,7 @@ const Bond = () => {
           </div>
         )}
         {/* Confirmation delay warning */}
-        {sizzler && sizzler.withdrawal !== "0.00" && (
+        {sizzler && sizzler.withdrawal && (
           <div className="text-secondary text-sm mt-1 px-5 self-start">
             <i className="bi bi-exclamation-triangle"></i>
             You have a pending withdrawal confirmation. Confirm it before withdrawing more to
@@ -261,7 +261,7 @@ const Bond = () => {
               <i className="bi bi-info-circle-fill text-base text-info cursor-pointer"></i>
             </Tooltip>
           </div>
-          <div>{sizzler ? sizzler.votingPower : "-"}</div>
+          <div>{sizzler ? sizzler.taskLimit : "-"}</div>
         </div>
         <div className="flex flex-col items-center gap-y-2 text-lg">
           <div className="text-label">
@@ -269,7 +269,7 @@ const Bond = () => {
             {sizzler && (
               <Tooltip
                 content={`Resets every 10 minutes. Last reset at ${new Date(
-                  sizzler.lastReset
+                  sizzler.lastResetAt
                 ).toLocaleString()}`}
                 className="rounded-t-none rounded-b-none"
               >
@@ -277,7 +277,7 @@ const Bond = () => {
               </Tooltip>
             )}
           </div>
-          <div>{sizzler ? sizzler.tasksRemaining : "-"} </div>
+          <div>{sizzler ? sizzler.taskLimit - sizzler.taskCounter : "-"} </div>
         </div>
       </div>
       <div className="bg-primary p-3 mx-5 mt-3 mb-8 lg:mx-10 font-medium">

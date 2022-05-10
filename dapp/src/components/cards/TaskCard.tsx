@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Tooltip } from "flowbite-react";
 
 // Components
-import Modal, { IModal } from "../Modal";
+import Modal, { ModalProps } from "../Modal";
 import Button from "../Button";
 
 // Hooks
@@ -17,7 +17,7 @@ import { updateTip, addCredits, withdrawCredits, removeTask } from "../../operat
 // Globals
 import { bcdURL, explorerURL } from "../../common/global";
 
-interface ITaskCard {
+interface TaskCardProps {
   owner: string;
   contract: string;
   entrypoint: string;
@@ -39,8 +39,8 @@ const TaskCard = ({
   lastExecuted,
   metadata,
   isYour = false,
-}: ITaskCard) => {
-  const [modal, setModal] = useState<IModal>({
+}: TaskCardProps) => {
+  const [modal, setModal] = useState<ModalProps>({
     show: false,
     heading: "",
     label: "",

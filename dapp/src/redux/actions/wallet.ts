@@ -1,5 +1,5 @@
 import * as t from "../types";
-import { Sizzler } from "../../api/wallet";
+import { Sizzler } from "../../api/sizzler";
 
 export interface ConnectWalletAction {
   type: t.WalletActionTypes.CONNECT_WALLET;

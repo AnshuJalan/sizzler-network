@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
 
-interface IButton {
+interface ButtonProps {
   onClick: () => void;
   children: ReactNode;
   outline?: boolean;
   disabled?: boolean;
 }
 
-const Button = ({ onClick, children, outline = false, disabled = false }: IButton) => {
+const Button = ({ onClick, children, outline = false, disabled = false }: ButtonProps) => {
   return !disabled ? (
     <div
       onClick={onClick}
