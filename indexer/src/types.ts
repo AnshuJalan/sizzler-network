@@ -81,6 +81,7 @@ export interface TaskOperationDetails {
 export interface Config {
   tzktURL: string;
   mongodbURL: string;
+  serverPort: number;
   contractToTask: string;
   sizzlers: string;
   deposits: string;

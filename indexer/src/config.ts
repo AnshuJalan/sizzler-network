@@ -5,6 +5,9 @@ export const config: Config = {
   tzktURL: "https://api.ithacanet.tzkt.io/v1",
   mongodbURL: "mongodb://localhost:27017/sizzler-network",
 
+  // Ports
+  serverPort: 3001,
+
   // Bigmap IDs
   contractToTask: "66360",
   sizzlers: "66358",
