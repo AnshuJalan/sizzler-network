@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface Sizzler {
+export interface Sizzler {
   address: string;
   stake: string;
   taskCounter: number;

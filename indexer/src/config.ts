@@ -1,4 +1,6 @@
-export const config = {
+import { Config } from "./types";
+
+export const config: Config = {
   // URLs
   tzktURL: "https://api.ithacanet.tzkt.io/v1",
   mongodbURL: "mongodb://localhost:27017/sizzler-network",

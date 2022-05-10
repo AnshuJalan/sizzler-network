@@ -1,14 +1,13 @@
 import { config } from "./config";
 import { scheduleJobs } from "./jobs";
-import { connectDB, initDB } from "./db";
-import { TzktProvider } from "./infrastructure/TzktProvider";
+import { buildDependencies } from "./dependencies";
 
 (async () => {
   try {
-    const tzktProvider = new TzktProvider(config.tzktURL);
-    await connectDB();
-    await initDB(tzktProvider);
-    const crontab = scheduleJobs(tzktProvider);
+    const dependencies = buildDependencies(config);
+    await dependencies.databaseClient.connect();
+    await dependencies.databaseClient.init();
+    const crontab = scheduleJobs(dependencies);
     crontab.start();
   } catch (err) {
     console.error(err.message);

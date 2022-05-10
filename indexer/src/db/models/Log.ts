@@ -1,6 +1,6 @@
 import mongoose, { Schema, Types } from "mongoose";
 
-interface Log {
+export interface Log {
   task: Types.ObjectId;
   sizzler: string;
   sizzleMinted: string;

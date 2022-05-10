@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface Task {
+export interface Task {
   contract: string;
   entrypoint: string;
   metadata: string;

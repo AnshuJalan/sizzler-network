@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-interface Meta {
+export interface Meta {
   taskIndexLastLevel: number;
   logIndexLastLevel: number;
   sizzlerIndex: {

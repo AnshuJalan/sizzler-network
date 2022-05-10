@@ -1,15 +1,22 @@
-import Meta from "../db/models/Meta";
-import Sizzler from "../db/models/Sizzler";
-
-import { config } from "../config";
 import { TzktProvider } from "../infrastructure/TzktProvider";
-import { BigMapUpdateActions, SizzlersBigMapUpdate, DepositWithdrawalBigMapUpdate } from "../types";
+import {
+  Models,
+  Config,
+  IndexerDependencies,
+  BigMapUpdateActions,
+  SizzlersBigMapUpdate,
+  DepositWithdrawalBigMapUpdate,
+} from "../types";
 
 export class SizzlersIndexer {
+  private _config: Config;
+  private _models: Models;
   private _tzktProvider: TzktProvider;
 
-  constructor(tzktProvider: TzktProvider) {
+  constructor({ databaseClient, tzktProvider, config }: IndexerDependencies) {
     this._tzktProvider = tzktProvider;
+    this._models = databaseClient.models;
+    this._config = config;
   }
 
   index = async (): Promise<void> => {
@@ -28,7 +35,7 @@ export class SizzlersIndexer {
       if (firstLevel === lastLevel) return;
       const sizzlersBigMapUpdates = await this._tzktProvider.getBigMapUpdates<SizzlersBigMapUpdate>(
         {
-          id: config.sizzlers,
+          id: this._config.sizzlers,
           firstLevel: firstLevel + 1,
           lastLevel,
         }
@@ -37,7 +44,7 @@ export class SizzlersIndexer {
         switch (update.action) {
           case BigMapUpdateActions.ADD_KEY:
           case BigMapUpdateActions.UPDATE_KEY: {
-            await Sizzler.findOneAndUpdate(
+            await this._models.sizzler.findOneAndUpdate(
               { address: update.content.key },
               {
                 stake: update.content.value.stake,
@@ -55,7 +62,7 @@ export class SizzlersIndexer {
 
       console.log(`> Indexed Sizzlers from level ${firstLevel} to ${lastLevel}`);
 
-      await Meta.findOneAndUpdate(
+      await this._models.meta.findOneAndUpdate(
         {},
         {
           $set: {
@@ -74,14 +81,14 @@ export class SizzlersIndexer {
       if (firstLevel === lastLevel) return;
       const depositsBigMapUpdates =
         await this._tzktProvider.getBigMapUpdates<DepositWithdrawalBigMapUpdate>({
-          id: config.deposits,
+          id: this._config.deposits,
           firstLevel: firstLevel + 1,
           lastLevel,
         });
       for (const update of depositsBigMapUpdates) {
         switch (update.action) {
           case BigMapUpdateActions.ADD_KEY: {
-            const sizzler = new Sizzler({
+            const sizzler = new this._models.sizzler({
               address: update.content.key,
               deposit: {
                 amount: update.content.value.amount,
@@ -92,7 +99,7 @@ export class SizzlersIndexer {
             break;
           }
           case BigMapUpdateActions.UPDATE_KEY: {
-            await Sizzler.findOneAndUpdate(
+            await this._models.sizzler.findOneAndUpdate(
               { address: update.content.key },
               {
                 deposit: {
@@ -110,7 +117,7 @@ export class SizzlersIndexer {
 
       console.log(`> Indexed Deposits from level ${firstLevel} to ${lastLevel}`);
 
-      await Meta.findOneAndUpdate(
+      await this._models.meta.findOneAndUpdate(
         {},
         {
           $set: {
@@ -129,7 +136,7 @@ export class SizzlersIndexer {
       if (firstLevel === lastLevel) return;
       const withdrawalsBigMapUpdates =
         await this._tzktProvider.getBigMapUpdates<DepositWithdrawalBigMapUpdate>({
-          id: config.withdrawals,
+          id: this._config.withdrawals,
           firstLevel: firstLevel + 1,
           lastLevel,
         });
@@ -137,7 +144,7 @@ export class SizzlersIndexer {
         switch (update.action) {
           case BigMapUpdateActions.ADD_KEY:
           case BigMapUpdateActions.UPDATE_KEY: {
-            await Sizzler.findOneAndUpdate(
+            await this._models.sizzler.findOneAndUpdate(
               { address: update.content.key },
               {
                 withdrawal: {
@@ -155,7 +162,7 @@ export class SizzlersIndexer {
 
       console.log(`> Indexed Withdrawals from level ${firstLevel} to ${lastLevel}`);
 
-      await Meta.findOneAndUpdate(
+      await this._models.meta.findOneAndUpdate(
         {},
         {
           $set: {
@@ -170,8 +177,8 @@ export class SizzlersIndexer {
 
   private _getSizzlersIndexingLevels = async (): Promise<[number, number]> => {
     try {
-      const meta = await Meta.findOne();
-      const sizzlersBigMapLevels = await this._tzktProvider.getBigMapLevels(config.sizzlers);
+      const meta = await this._models.meta.findOne();
+      const sizzlersBigMapLevels = await this._tzktProvider.getBigMapLevels(this._config.sizzlers);
       return [meta.sizzlerIndex.mainLastLevel, sizzlersBigMapLevels[1]];
     } catch (err) {
       throw err;
@@ -180,8 +187,8 @@ export class SizzlersIndexer {
 
   private _getDepositsIndexingLevels = async (): Promise<[number, number]> => {
     try {
-      const meta = await Meta.findOne();
-      const depositsBigMapLevels = await this._tzktProvider.getBigMapLevels(config.deposits);
+      const meta = await this._models.meta.findOne();
+      const depositsBigMapLevels = await this._tzktProvider.getBigMapLevels(this._config.deposits);
       return [meta.sizzlerIndex.depositsLastLevel, depositsBigMapLevels[1]];
     } catch (err) {
       throw err;
@@ -190,8 +197,10 @@ export class SizzlersIndexer {
 
   private _getWithdrawalsIndexingLevels = async (): Promise<[number, number]> => {
     try {
-      const meta = await Meta.findOne();
-      const withdrawalsBigMapLevels = await this._tzktProvider.getBigMapLevels(config.withdrawals);
+      const meta = await this._models.meta.findOne();
+      const withdrawalsBigMapLevels = await this._tzktProvider.getBigMapLevels(
+        this._config.withdrawals
+      );
       return [meta.sizzlerIndex.withdrawalsLastLevel, withdrawalsBigMapLevels[1]];
     } catch (err) {
       throw err;

@@ -1,16 +1,21 @@
-import Log from "../db/models/Log";
-import Meta from "../db/models/Meta";
-import Task from "../db/models/Task";
-
-import { config } from "../config";
 import { TzktProvider } from "../infrastructure/TzktProvider";
-import { TaskCompletionOperation, TaskOperationDetails } from "../types";
+import {
+  IndexerDependencies,
+  TaskCompletionOperation,
+  TaskOperationDetails,
+  Config,
+  Models,
+} from "../types";
 
 export class LogsIndexer {
+  private _config: Config;
+  private _models: Models;
   private _tzktProvider: TzktProvider;
 
-  constructor(tzktProvider: TzktProvider) {
+  constructor({ databaseClient, tzktProvider, config }: IndexerDependencies) {
     this._tzktProvider = tzktProvider;
+    this._models = databaseClient.models;
+    this._config = config;
   }
 
   index = async (): Promise<void> => {
@@ -19,15 +24,17 @@ export class LogsIndexer {
       if (firstLevel === lastLevel) return;
       const taskCompletionOperations =
         await this._tzktProvider.getOperationByContract<TaskCompletionOperation>({
-          contract: config.taskManager,
+          contract: this._config.taskManager,
           entrypoint: "complete_task",
           firstLevel: firstLevel + 1,
           lastLevel,
         });
       for (const op of taskCompletionOperations) {
         const opDetails = await this._getOperationDetails(op.hash);
-        const task = await Task.findOne({ contract: op.sender.address });
-        const log = new Log({
+        const task = await this._models.task.findOne({
+          contract: op.sender.address,
+        });
+        const log = new this._models.log({
           task: task._id,
           sizzler: op.parameter.value,
           sizzleMinted: opDetails.sizzleMinted,
@@ -43,7 +50,7 @@ export class LogsIndexer {
 
       console.log(`> Indexed Task completion logs from level ${firstLevel} to ${lastLevel}`);
 
-      await Meta.findOneAndUpdate({}, { logIndexLastLevel: lastLevel });
+      await this._models.meta.findOneAndUpdate({}, { logIndexLastLevel: lastLevel });
     } catch (err) {
       throw err;
     }
@@ -53,10 +60,12 @@ export class LogsIndexer {
     const fullOperation: any[] = await this._tzktProvider.getOperationByHash(hash);
     const tipOp = fullOperation.find(
       (op: any) =>
-        op.sender.address === config.taskManager && op.target.address === config.sizzleToken
+        op.sender.address === this._config.taskManager &&
+        op.target.address === this._config.sizzleToken
     );
     const sizzleMintedOp = fullOperation.find(
-      (op: any) => op.sender.address === config.minter && op.target.address === config.sizzleToken
+      (op: any) =>
+        op.sender.address === this._config.minter && op.target.address === this._config.sizzleToken
     );
     const fee = fullOperation.reduce((total, op) => total + (op.bakerFee + op.storageFee), 0);
     return {
@@ -68,8 +77,8 @@ export class LogsIndexer {
 
   private _getIndexingLevels = async (): Promise<[number, number]> => {
     try {
-      const meta = await Meta.findOne();
-      const contractLevels = await this._tzktProvider.getContractLevels(config.taskManager);
+      const meta = await this._models.meta.findOne();
+      const contractLevels = await this._tzktProvider.getContractLevels(this._config.taskManager);
       return [meta.logIndexLastLevel, contractLevels[1]];
     } catch (err) {
       throw err;

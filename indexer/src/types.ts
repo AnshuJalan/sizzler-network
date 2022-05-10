@@ -1,3 +1,9 @@
+import mongoose from "mongoose";
+
+import * as models from "./db";
+import { DatabaseClient } from "./infrastructure/DatabaseClient";
+import { TzktProvider } from "./infrastructure/TzktProvider";
+
 export interface GetOperationByContractOptions {
   contract: string;
   entrypoint: string;
@@ -70,4 +76,30 @@ export interface TaskOperationDetails {
   tip: number;
   sizzleMinted: number;
   fee: number;
+}
+
+export interface Config {
+  tzktURL: string;
+  mongodbURL: string;
+  contractToTask: string;
+  sizzlers: string;
+  deposits: string;
+  withdrawals: string;
+  taskManager: string;
+  sizzlerManager: string;
+  sizzleToken: string;
+  minter: string;
+}
+
+export interface Models {
+  meta: mongoose.Model<models.Meta>;
+  log: mongoose.Model<models.Log>;
+  sizzler: mongoose.Model<models.Sizzler>;
+  task: mongoose.Model<models.Task>;
+}
+
+export interface IndexerDependencies {
+  config: Config;
+  tzktProvider: TzktProvider;
+  databaseClient: DatabaseClient;
 }
