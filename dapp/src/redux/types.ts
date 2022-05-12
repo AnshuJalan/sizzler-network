@@ -13,3 +13,7 @@ export enum ProposalsActionTypes {
 export enum TasksActionTypes {
   GET_ALL_TASKS = "GET_ALL_TASKS",
 }
+
+export enum LogsActionTypes {
+  GET_ALL_LOGS = "GET_ALL_LOGS",
+}

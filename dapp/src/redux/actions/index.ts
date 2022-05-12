@@ -1,9 +1,11 @@
 import { ConnectWalletAction } from "./wallet";
-import { GetAllTasksActions } from "./tasks";
+import { GetAllTasksAction } from "./tasks";
 import { SetLoaderAction } from "./loader";
-import { GetAllProposals } from "./proposals";
+import { GetAllProposalsAction } from "./proposals";
+import { GetAllLogsAction } from "./logs";
 
 export type WalletAction = ConnectWalletAction;
-export type TasksAction = GetAllTasksActions;
+export type TasksAction = GetAllTasksAction;
 export type LoaderAction = SetLoaderAction;
-export type ProposalsAction = GetAllProposals;
+export type ProposalsAction = GetAllProposalsAction;
+export type LogsAction = GetAllLogsAction;

@@ -1,4 +1,5 @@
 import axios from "axios";
+import BigNumber from "bignumber.js";
 
 import { indexerURL } from "../common/global";
 
@@ -24,6 +25,7 @@ export const getSizzler = async (address: string): Promise<Sizzler | null> => {
     delete res_.data.address;
     return {
       ...res_.data,
+      stake: new BigNumber(res_.data.stake).dividedBy(10 ** 6).toFixed(2),
     };
   }
 

@@ -45,12 +45,12 @@ const Tasks = () => {
             key={index}
             owner={task.owner}
             contract={task.contract}
-            estimatedFee="-"
+            estimatedFee={task.estimatedFee}
             entrypoint={task.entrypoint}
             metadata={task.metadata}
             tip={task.tip}
             creditsRemaining={task.credits}
-            lastExecuted="-"
+            lastExecuted={task.lastExecuted}
             isYour={accountPkh === task.owner}
           />
         ))}

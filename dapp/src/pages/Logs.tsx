@@ -1,39 +1,21 @@
+import { useEffect } from "react";
+
 // Components
 import LogCard from "../components/cards/LogCard";
 
-// Temp dummy
-const logs = [
-  {
-    headerIcon: "bi bi-clipboard2-check-fill",
-    headerText: "Task Completed",
-    headerLink: "",
-    operationHash: "oowXb6CsqDx9hdU1GQFMS7FQEvSaZsvzpk8fuoGMTjR5yCovziA",
-    bodyData: [
-      { caption: "Task ID", value: "# 124" },
-      { caption: "Sizzler", value: "tz1Zcz...19S" },
-      { caption: "SZL Minted", value: "12.5 SZL" },
-      { caption: "Tip", value: "0.5 SZL" },
-      { caption: "Completed At", value: "15-04-2022 04:54:12" },
-    ],
-    metadata: "ipfs://",
-  },
-  {
-    headerIcon: "bi bi-clipboard2-check-fill",
-    headerText: "Task Completed",
-    headerLink: "",
-    operationHash: "oowXb6CsqDx9hdU1GQFMS7FQEvSaZsvzpk8fuoGMTjR5yCovziA",
-    bodyData: [
-      { caption: "Task ID", value: "# 124" },
-      { caption: "Sizzler", value: "tz1Zcz...19S" },
-      { caption: "SZL Minted", value: "12.5 SZL" },
-      { caption: "Tip", value: "0.5 SZL" },
-      { caption: "Completed At", value: "15-04-2022 04:54:12" },
-    ],
-    metadata: "ipfs://",
-  },
-];
+// Hooks
+import { useActions, useTypedSelector } from "../hooks";
 
 const Logs = () => {
+  const { getAllLogs } = useActions();
+
+  const { logs } = useTypedSelector((state) => state.logs);
+
+  // Load logs on component mounting
+  useEffect(() => {
+    getAllLogs();
+  }, [getAllLogs]);
+
   return (
     <div className="px-5 sm:px-40 mt-44 pb-20">
       {/* Header */}
@@ -53,15 +35,7 @@ const Logs = () => {
       {/* Data */}
       <div className="flex flex-col gap-y-8">
         {logs.map((log, index) => (
-          <LogCard
-            key={index}
-            headerIcon={log.headerIcon}
-            headerText={log.headerText}
-            headerLink={log.headerLink}
-            operationHash={log.operationHash}
-            bodyData={log.bodyData}
-            metadata={log.metadata}
-          />
+          <LogCard key={index} {...log} />
         ))}
       </div>
     </div>

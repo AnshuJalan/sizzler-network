@@ -21,11 +21,11 @@ interface TaskCardProps {
   owner: string;
   contract: string;
   entrypoint: string;
+  metadata: string;
   tip: string;
   creditsRemaining: string;
-  estimatedFee: string;
-  lastExecuted: string;
-  metadata: string;
+  estimatedFee: number | undefined;
+  lastExecuted: string | undefined;
   isYour?: boolean;
 }
 
@@ -243,7 +243,7 @@ const TaskCard = ({
               <i className="bi bi-info-circle-fill text-sm opacity-70 cursor-pointer"></i>
             </Tooltip>
           </span>
-          <span>{estimatedFee}</span>
+          <span>{estimatedFee ? `${(estimatedFee / 10 ** 6).toFixed(4)} ꜩ` : "-"}</span>
         </div>
         <div className="flex flex-col items-center gap-y-2">
           <span className="text-label">Tip</span>
@@ -255,7 +255,7 @@ const TaskCard = ({
         </div>
         <div className="flex flex-col items-center gap-y-2 col-span-2 lg:col-span-1">
           <span className="text-label">Last Executed</span>
-          <span>{lastExecuted || "-"}</span>
+          <span>{lastExecuted ? new Date(lastExecuted).toLocaleString() : "-"}</span>
         </div>
       </div>
       {isYour && (
