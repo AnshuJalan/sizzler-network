@@ -32,6 +32,9 @@ module.exports = {
         fadeInDown: "fadeInDown 0.5s ease-in-out",
       },
     },
+    fill: (theme) => ({
+      secondary: theme("colors.secondary"),
+    }),
   },
   variants: {
     extend: {},

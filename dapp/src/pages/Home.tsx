@@ -1,3 +1,5 @@
+import { Spinner } from "flowbite-react";
+
 // Hooks
 import { useTypedSelector } from "../hooks";
 
@@ -6,6 +8,10 @@ import Design from "../assets/design.png";
 
 const Home = () => {
   const { isConnected } = useTypedSelector((state) => state.wallet);
+
+  const { loading, taskManager, sizzlerManager, minter, sizzle } = useTypedSelector(
+    (state) => state.stats
+  );
 
   return (
     <div>
@@ -22,28 +28,62 @@ const Home = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-x-8 gap-y-6 sm:gap-y-10 font-medium text-xl">
             <div className="flex flex-col gap-y-4 items-center">
               <div className="text-label">Active Tasks</div>
-              <div>421</div>
+              <div>
+                {loading ? (
+                  <Spinner className="fill-secondary text-primary" />
+                ) : (
+                  taskManager.activeTasks
+                )}
+              </div>
             </div>
             <div className="flex flex-col gap-y-4 items-center">
-              <div className="text-label">Active Proposals</div>
-              <div>12</div>
+              <div className="text-label">Total Tasks Limit</div>
+              <div>
+                {loading ? (
+                  <Spinner className="fill-secondary text-primary" />
+                ) : (
+                  taskManager.totalTasksLimit
+                )}
+              </div>
             </div>
             <div className="flex flex-col gap-y-4 items-center">
               <div className="text-label">Sizzlers</div>
-              <div>56</div>
+              <div>
+                {loading ? (
+                  <Spinner className="fill-secondary text-primary" />
+                ) : (
+                  sizzlerManager.sizzlers
+                )}
+              </div>
             </div>
             <div className="flex flex-col gap-y-4 items-center">
               <div className="text-label">SZL Supply</div>
-              <div>56,600</div>
+              <div>
+                {loading ? (
+                  <Spinner className="fill-secondary text-primary" />
+                ) : (
+                  `${sizzle.totalSupply} SZL`
+                )}
+              </div>
             </div>
             <div className="flex flex-col gap-y-4 items-center">
               <div className="text-label">SZL Emission Rate</div>
-              <div>5 SZL / min</div>
+              <div>
+                {loading ? (
+                  <Spinner className="fill-secondary text-primary" />
+                ) : (
+                  `${minter.emissionRate} SZL / min`
+                )}
+              </div>
             </div>
             <div className="flex flex-col gap-y-4 items-center">
               <div className="text-label">Min Bond Value</div>
               <div className="flex flex-col items-center gap-y-2">
-                1.5 tQPLP
+                {loading ? (
+                  <Spinner className="fill-secondary text-primary" />
+                ) : (
+                  `${sizzlerManager.lpPerTask} tQPLP`
+                )}
                 <div className="bg-info text-white text-xs text-medium px-2 py-1 rounded-full">
                   Quipuswap SZL-kUSD LP
                 </div>

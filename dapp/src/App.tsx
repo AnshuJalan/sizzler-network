@@ -16,11 +16,12 @@ import Governance from "./pages/Governance";
 import NewProposal from "./pages/NewProposal";
 
 const App = () => {
-  const { connectWallet } = useActions();
+  const { connectWallet, getStats } = useActions();
 
   useEffect(() => {
     connectWallet(false);
-  }, [connectWallet]);
+    getStats();
+  }, [connectWallet, getStats]);
 
   return (
     <div className="min-h-screen w-full overflow-x-hidden bg-primary font-primary">

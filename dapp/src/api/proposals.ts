@@ -10,6 +10,7 @@ export interface Proposal {
   lambda: string;
   upVotes: number;
   downVotes: number;
+  voters: { [key: string]: Object };
   handler: string;
   status: any;
 }
@@ -29,6 +30,7 @@ export const getAllProposals = async (): Promise<Proposal[]> => {
       lambda: proposal.value.proposal_lambda,
       upVotes: parseInt(proposal.value.up_votes),
       downVotes: parseInt(proposal.value.down_votes),
+      voters: proposal.value.voters,
       handler: proposal.value.handler,
       status: proposal.value.status,
     });

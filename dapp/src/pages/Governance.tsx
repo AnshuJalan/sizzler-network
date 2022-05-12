@@ -49,6 +49,7 @@ const Governance = () => {
             sizzler={proposal.handler}
             upVotes={proposal.upVotes}
             downVotes={proposal.downVotes}
+            voters={proposal.voters}
             status={proposal.status}
           />
         ))}

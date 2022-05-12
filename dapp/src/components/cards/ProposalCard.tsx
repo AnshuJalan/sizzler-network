@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Tooltip } from "flowbite-react";
 
 // Operations
@@ -8,7 +8,7 @@ import { endVoting, execute, flushProposal, vote, Vote } from "../../operations/
 import { Status } from "../../redux/actions/loader";
 
 // Hooks
-import { useActions } from "../../hooks";
+import { useActions, useTypedSelector } from "../../hooks";
 
 // Components
 import Button from "../Button";
@@ -22,6 +22,7 @@ interface ProposalCardProps {
   sizzler: string;
   upVotes: number;
   downVotes: number;
+  voters: { [key: string]: Object };
   status: any;
 }
 
@@ -33,11 +34,14 @@ const ProposalCard = ({
   sizzler,
   upVotes,
   downVotes,
+  voters,
   status,
 }: ProposalCardProps) => {
   const [showMetadata, setShowMetadata] = useState<boolean>(false);
 
   const { setLoader } = useActions();
+
+  const { accountPkh } = useTypedSelector((state) => state.wallet);
 
   const onUpVote = async () => {
     try {
@@ -89,6 +93,57 @@ const ProposalCard = ({
     }
   };
 
+  const getActionButtons = (): ReactNode[] => {
+    const buttons = [];
+    if (status.voting && new Date() > new Date(status.voting)) {
+      buttons.push(
+        <Button onClick={onEndVoting}>
+          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+            <i className="bi bi-stopwatch" />
+            End Voting
+          </div>
+        </Button>
+      );
+    } else if (status.timelocked && new Date() > new Date(status.timelocked)) {
+      buttons.push(
+        <Button onClick={onExecute}>
+          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+            <i className="bi bi-check-square" />
+            Execute
+          </div>
+        </Button>
+      );
+      if (sizzler === accountPkh) {
+        buttons.push(
+          <Button onClick={onRemove}>
+            <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+              <i className="bi bi-x-square" />
+              Remove
+            </div>
+          </Button>
+        );
+      }
+    } else if (!voters[accountPkh]) {
+      buttons.push(
+        <Button onClick={onUpVote}>
+          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+            <i className="bi bi-hand-thumbs-up" />
+            Up Vote
+          </div>
+        </Button>
+      );
+      buttons.push(
+        <Button onClick={onDownVote}>
+          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
+            <i className="bi bi-hand-thumbs-down" />
+            Down Vote
+          </div>
+        </Button>
+      );
+    }
+    return buttons;
+  };
+
   const getQuorumGradient = (): string => {
     const quorumThreshold = Math.max(upVotes + downVotes, 5);
 
@@ -102,7 +157,7 @@ const ProposalCard = ({
   };
 
   const formattedStatus = (() => {
-    if (Object.keys(status)[0] === "voting")
+    if (status.voting)
       return (
         <React.Fragment>
           Voting
@@ -115,7 +170,7 @@ const ProposalCard = ({
           </Tooltip>
         </React.Fragment>
       );
-    else if (Object.keys(status)[0] === "timelocked")
+    else if (status.timelocked)
       return (
         <React.Fragment>
           Timelocked
@@ -128,7 +183,7 @@ const ProposalCard = ({
           </Tooltip>
         </React.Fragment>
       );
-    else if (Object.keys(status)[0] === "passed") return "Passed";
+    else if (status.passed) return "Passed";
     else return "Failed";
   })();
 
@@ -161,6 +216,7 @@ const ProposalCard = ({
           ></div>
         </div>
       </div>
+
       {/* Divider */}
       <div className="bg-label opacity-20 h-0.5" />
       {/* Details */}
@@ -187,41 +243,17 @@ const ProposalCard = ({
         </div>
       </div>
 
-      {/* Divider */}
-      <div className="bg-label opacity-20 h-0.5" />
-      {/* Actions */}
-      <div className="grid sm:inline-grid grid-cols-2 sm:grid-cols-5 gap-3 px-4 pt-2">
-        <Button onClick={onUpVote}>
-          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
-            <i className="bi bi-hand-thumbs-up" />
-            Up Vote
+      {getActionButtons().length !== 0 && (
+        <React.Fragment>
+          {/* Divider */}
+          <div className="bg-label opacity-20 h-0.5" />
+          {/* Actions */}
+          <div className="grid sm:inline-grid grid-cols-2 sm:grid-cols-5 gap-3 px-4 pt-2">
+            {getActionButtons()}
           </div>
-        </Button>
-        <Button onClick={onDownVote}>
-          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
-            <i className="bi bi-hand-thumbs-down" />
-            Down Vote
-          </div>
-        </Button>
-        <Button onClick={onEndVoting}>
-          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
-            <i className="bi bi-stopwatch" />
-            End Voting
-          </div>
-        </Button>
-        <Button onClick={onExecute}>
-          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
-            <i className="bi bi-check-square" />
-            Execute
-          </div>
-        </Button>
-        <Button onClick={onRemove}>
-          <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
-            <i className="bi bi-x-square" />
-            Remove
-          </div>
-        </Button>
-      </div>
+        </React.Fragment>
+      )}
+
       {/* Metadata Popup */}
       <Metadata
         show={showMetadata}

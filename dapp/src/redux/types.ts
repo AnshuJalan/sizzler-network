@@ -17,3 +17,7 @@ export enum TasksActionTypes {
 export enum LogsActionTypes {
   GET_ALL_LOGS = "GET_ALL_LOGS",
 }
+
+export enum StatsActionTypes {
+  GET_STATS = "GET_STATS",
+}

@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Tooltip } from "flowbite-react";
+import { Spinner } from "flowbite-react";
 
 // Components
 import Button from "../components/Button";
 
 // Hooks
 import { useActions, useTypedSelector } from "../hooks";
-
-// Parameters
-import { parameters as params, Parameters } from "../common/parameters";
 
 // Types
 import { Status } from "../redux/actions/loader";
@@ -31,19 +29,10 @@ const Bond = () => {
   const [depositVal, setDepositVal] = useState<string>("");
   const [withdrawVal, setWithdrawVal] = useState<string>("");
   const [error, setError] = useState<Error | null>(null);
-  const [parameters, setParameters] = useState<Parameters>({
-    depositDelay: 0,
-    withdrawalDelay: 0,
-    lpPerTask: "",
-    resetPeriod: 0,
-  });
 
   const { sizzler } = useTypedSelector((state) => state.wallet);
+  const { loading, sizzlerManager, taskManager } = useTypedSelector((state) => state.stats);
   const { setLoader } = useActions();
-
-  useEffect(() => {
-    params.then((val) => setParameters(val));
-  }, []);
 
   // deposit operation
   const onDeposit = async () => {
@@ -114,13 +103,16 @@ const Bond = () => {
   const depositSection = (
     <React.Fragment>
       {/* Confirm deposit header */}
-      {sizzler && sizzler.deposit && (
+      {sizzler && sizzler.deposit && sizzler.deposit.amount !== "0" && (
         <div className="inline-flex flex-col md:flex-row items-center justify-between gap-x-3 gap-y-3 border-2 border-secondary p-4 mt-8">
           <div className="font-medium">
             You can confirm your deposit after:{" "}
             {new Date(sizzler.deposit.confirmationAt).toLocaleString()}
           </div>
-          <Button onClick={onDepositConfirm}>
+          <Button
+            disabled={new Date() < new Date(sizzler.deposit.confirmationAt)}
+            onClick={onDepositConfirm}
+          >
             <div className="flex items-center justify-center gap-x-3 px-3 py-2 text-sm">
               <i className="bi bi-check-square" />
               Confirm Deposit
@@ -137,8 +129,9 @@ const Bond = () => {
           </div>
           <input
             value={depositVal}
+            type="number"
             onChange={(e) => setDepositVal(e.target.value)}
-            className="p-2 flex-grow bg-primary font-medium placeholder-placeholder placeholder-opacity-40 focus:outline-none"
+            className="p-2 flex-grow bg-primary font-medium placeholder-placeholder placeholder-opacity-40 border-none focus:ring-transparent"
             placeholder="Enter tQPLP to deposit"
           />
         </div>
@@ -149,7 +142,7 @@ const Bond = () => {
           </div>
         )}
         {/* Confirmation delay warning */}
-        {sizzler && sizzler.deposit && (
+        {sizzler && sizzler.deposit && sizzler.deposit.amount !== "0" && (
           <div className="text-secondary text-sm mt-1 px-5 self-start">
             <i className="bi bi-exclamation-triangle"></i>
             You have a pending deposit confirmation. Confirm it before depositing more to prevent
@@ -170,13 +163,16 @@ const Bond = () => {
   const withdrawSection = (
     <React.Fragment>
       {/* Confirm withdrawal header */}
-      {sizzler && sizzler.withdrawal && (
+      {sizzler && sizzler.withdrawal && sizzler.withdrawal.amount !== "0" && (
         <div className="inline-flex flex-col md:flex-row items-center justify-between gap-x-3 gap-y-3 border-2 border-secondary p-4 mt-8">
           <div className="font-medium">
             You can confirm your withdrawal after:{" "}
             {new Date(sizzler.withdrawal.confirmationAt).toLocaleString()}
           </div>
-          <Button onClick={onWithdrawalConfirm}>
+          <Button
+            disabled={new Date() < new Date(sizzler.withdrawal.confirmationAt)}
+            onClick={onWithdrawalConfirm}
+          >
             <div className="flex items-center justify-center gap-x-3 px-3 py-2 text-sm">
               <i className="bi bi-check-square" />
               Confirm Withdrawal
@@ -193,8 +189,9 @@ const Bond = () => {
           </div>
           <input
             value={withdrawVal}
+            type="number"
             onChange={(e) => setWithdrawVal(e.target.value)}
-            className="p-2 flex-grow bg-primary font-medium placeholder-placeholder placeholder-opacity-40 focus:outline-none"
+            className="p-2 flex-grow bg-primary font-medium placeholder-placeholder placeholder-opacity-40 border-none focus:ring-transparent"
             placeholder="Enter tQPLP to withdraw"
           />
         </div>
@@ -205,7 +202,7 @@ const Bond = () => {
           </div>
         )}
         {/* Confirmation delay warning */}
-        {sizzler && sizzler.withdrawal && (
+        {sizzler && sizzler.withdrawal && sizzler.withdrawal.amount !== "0" && (
           <div className="text-secondary text-sm mt-1 px-5 self-start">
             <i className="bi bi-exclamation-triangle"></i>
             You have a pending withdrawal confirmation. Confirm it before withdrawing more to
@@ -237,15 +234,33 @@ const Bond = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-5 font-medium p-6">
         <div className="flex flex-col items-center gap-y-2 text-lg">
           <div className="text-label">Min Bond Value</div>
-          <div>{parameters.lpPerTask} tQPLP</div>
+          <div>
+            {loading ? (
+              <Spinner className="fill-secondary text-primary" />
+            ) : (
+              `${sizzlerManager.lpPerTask} tQPLP`
+            )}
+          </div>
         </div>
         <div className="flex flex-col items-center gap-y-2 text-lg">
           <div className="text-label">Sizzlers</div>
-          <div>56</div>
+          <div>
+            {loading ? (
+              <Spinner className="fill-secondary text-primary" />
+            ) : (
+              sizzlerManager.sizzlers
+            )}
+          </div>
         </div>
         <div className="flex flex-col items-center gap-y-2 text-lg">
           <div className="text-label">Total Voting Power</div>
-          <div>2,425</div>
+          <div>
+            {loading ? (
+              <Spinner className="fill-secondary text-primary" />
+            ) : (
+              taskManager.totalTasksLimit
+            )}
+          </div>
         </div>
         <div className="flex flex-col items-center gap-y-2 text-lg">
           <div className="text-label">Your Bond Value</div>
@@ -255,7 +270,7 @@ const Bond = () => {
           <div className="text-label">
             Your Voting Power{" "}
             <Tooltip
-              content="This is also the number of tasks available for you every 12 hours."
+              content="This is also the number of tasks available for you every 10 minutes."
               className="rounded-t-none rounded-b-none"
             >
               <i className="bi bi-info-circle-fill text-base text-info cursor-pointer"></i>
@@ -282,9 +297,9 @@ const Bond = () => {
       </div>
       <div className="bg-primary p-3 mx-5 mt-3 mb-8 lg:mx-10 font-medium">
         <i className="bi bi-info-circle-fill text-base text-info cursor-pointer"></i> Every stake of{" "}
-        {parameters.lpPerTask} tQPLP token, gives you 1 voting power and 1 task limit every{" "}
-        {parameters.resetPeriod} minutes. Deposits and withdrawals take {parameters.depositDelay}{" "}
-        minutes to confirm.
+        {sizzlerManager.lpPerTask} tQPLP token, gives you 1 voting power and 1 task limit every{" "}
+        {sizzlerManager.resetPeriod} minutes. Deposits and withdrawals take{" "}
+        {sizzlerManager.depositDelay} minutes to confirm.
       </div>
       <div className="flex text-center justify-center gap-x-4 font-medium text">
         <div onClick={() => setSelected(0)} className="flex flex-col items-center gap-y-1">

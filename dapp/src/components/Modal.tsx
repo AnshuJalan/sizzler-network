@@ -57,9 +57,10 @@ const Modal = ({
           <div className="text-label font-medium self-start mb-1">{label}</div>
           <input
             value={value}
+            type="number"
             placeholder={placeholder}
             onChange={(e) => onChange(e.target.value)}
-            className="p-2 bg-primary w-full font-medium placeholder-placeholder placeholder-opacity-60 focus:outline-none focus:ring-2 focus:ring-secondary"
+            className="p-2 bg-primary w-full font-medium placeholder-placeholder placeholder-opacity-60 border-none focus:ring-2 focus:ring-secondary"
           />
           {error && (
             <span className="font-medium text-sm self-start text-secondary">
