@@ -30,7 +30,7 @@ const Bond = () => {
   const [withdrawVal, setWithdrawVal] = useState<string>("");
   const [error, setError] = useState<Error | null>(null);
 
-  const { sizzler } = useTypedSelector((state) => state.wallet);
+  const { sizzler, isConnected } = useTypedSelector((state) => state.wallet);
   const { loading, sizzlerManager, taskManager } = useTypedSelector((state) => state.stats);
   const { setLoader } = useActions();
 
@@ -150,7 +150,7 @@ const Bond = () => {
           </div>
         )}
         <div className="mt-3">
-          <Button onClick={onDeposit}>
+          <Button disabled={!isConnected} onClick={onDeposit}>
             <div className="flex items-center justify-center gap-x-3 px-3 py-2 text-sm">
               Deposit
             </div>
@@ -210,7 +210,7 @@ const Bond = () => {
           </div>
         )}
         <div className="mt-3">
-          <Button onClick={onWithdraw}>
+          <Button disabled={!isConnected} onClick={onWithdraw}>
             <div className="flex items-center justify-center gap-x-3 px-3 py-2 text-sm">
               Withdraw
             </div>

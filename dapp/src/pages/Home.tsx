@@ -99,7 +99,7 @@ const Home = () => {
         {/* Background */}
         <div style={{ top: "60%", height: "40%" }} className="absolute bg-secondary w-full"></div>
       </div>
-      <div className="flex flex-col items-center gap-y-16 py-8 px-5">
+      <div className="flex flex-col items-center gap-y-16 py-16 px-5">
         <div className="font-bold text-3xl">
           How does it w<span className="text-secondary">o</span>rk?
         </div>

@@ -16,17 +16,21 @@ export interface Task {
 }
 
 export const getAllTasks = async (): Promise<Task[]> => {
-  const res_: { data: Task[] } = await axios.get(`${indexerURL}/tasks`);
+  try {
+    const res_: { data: Task[] } = await axios.get(`${indexerURL}/tasks`);
 
-  const tasks: Task[] = [];
+    const tasks: Task[] = [];
 
-  res_.data.forEach((task: Task) => {
-    tasks.push({
-      ...task,
-      tip: new BigNumber(task.tip).dividedBy(10 ** 18).toFixed(2),
-      credits: new BigNumber(task.credits).dividedBy(10 ** 18).toFixed(2),
+    res_.data.forEach((task: Task) => {
+      tasks.push({
+        ...task,
+        tip: new BigNumber(task.tip).dividedBy(10 ** 18).toFixed(2),
+        credits: new BigNumber(task.credits).dividedBy(10 ** 18).toFixed(2),
+      });
     });
-  });
 
-  return tasks;
+    return tasks;
+  } catch (err) {
+    throw err;
+  }
 };

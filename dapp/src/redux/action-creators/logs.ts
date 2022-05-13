@@ -8,11 +8,15 @@ import { LogsAction } from "../actions";
 import { getAllLogs as getAllLogsAPI } from "../../api/logs";
 
 export const getAllLogs = () => async (dispatch: Dispatch<LogsAction>) => {
-  const logs = await getAllLogsAPI();
-  dispatch({
-    type: t.LogsActionTypes.GET_ALL_LOGS,
-    payload: {
-      logs,
-    },
-  });
+  try {
+    const logs = await getAllLogsAPI();
+    dispatch({
+      type: t.LogsActionTypes.GET_ALL_LOGS,
+      payload: {
+        logs,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };

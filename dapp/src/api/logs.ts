@@ -18,17 +18,21 @@ export interface Log {
 }
 
 export const getAllLogs = async (): Promise<Log[]> => {
-  const res_: { data: Log[] } = await axios.get(`${indexerURL}/logs`);
+  try {
+    const res_: { data: Log[] } = await axios.get(`${indexerURL}/logs`);
 
-  const logs: Log[] = [];
+    const logs: Log[] = [];
 
-  res_.data.forEach((log: Log) => {
-    logs.push({
-      ...log,
-      sizzleMinted: new BigNumber(log.sizzleMinted).dividedBy(10 ** 18).toFixed(2),
-      tip: new BigNumber(log.tip).dividedBy(10 ** 18).toFixed(2),
+    res_.data.forEach((log: Log) => {
+      logs.push({
+        ...log,
+        sizzleMinted: new BigNumber(log.sizzleMinted).dividedBy(10 ** 18).toFixed(2),
+        tip: new BigNumber(log.tip).dividedBy(10 ** 18).toFixed(2),
+      });
     });
-  });
 
-  return logs;
+    return logs;
+  } catch (err) {
+    throw err;
+  }
 };

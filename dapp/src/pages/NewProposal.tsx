@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 // Hooks
-import { useActions } from "../hooks";
+import { useActions, useTypedSelector } from "../hooks";
 
 // Types
 import { Status } from "../redux/actions/loader";
@@ -26,6 +26,7 @@ const NewProposal = () => {
   const [lambda, setLambda] = useState<string>("");
   const [error, setError] = useState<Error | null>(null);
 
+  const { isConnected } = useTypedSelector((state) => state.wallet);
   const { setLoader } = useActions();
 
   const onPropose = async () => {
@@ -129,7 +130,7 @@ const NewProposal = () => {
             )}
           </div>
           <div className="self-center">
-            <Button onClick={onPropose}>
+            <Button disabled={!isConnected} onClick={onPropose}>
               <div className="px-3 py-2">Submit New Proposal</div>
             </Button>
           </div>

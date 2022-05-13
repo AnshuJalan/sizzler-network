@@ -19,15 +19,19 @@ export interface Sizzler {
 }
 
 export const getSizzler = async (address: string): Promise<Sizzler | null> => {
-  const res_ = await axios.get(`${indexerURL}/sizzlers/${address}`);
+  try {
+    const res_ = await axios.get(`${indexerURL}/sizzlers/${address}`);
 
-  if (res_.data.address) {
-    delete res_.data.address;
-    return {
-      ...res_.data,
-      stake: new BigNumber(res_.data.stake).dividedBy(10 ** 6).toFixed(2),
-    };
+    if (res_.data.address) {
+      delete res_.data.address;
+      return {
+        ...res_.data,
+        stake: new BigNumber(res_.data.stake).dividedBy(10 ** 6).toFixed(2),
+      };
+    }
+
+    return null;
+  } catch (err) {
+    throw err;
   }
-
-  return null;
 };

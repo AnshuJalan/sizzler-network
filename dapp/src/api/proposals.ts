@@ -16,25 +16,29 @@ export interface Proposal {
 }
 
 export const getAllProposals = async (): Promise<Proposal[]> => {
-  const res_ = await axios.get(
-    `${tzktURL}/contracts/${governorAddress}/bigmaps/proposals/keys?active=true`
-  );
+  try {
+    const res_ = await axios.get(
+      `${tzktURL}/contracts/${governorAddress}/bigmaps/proposals/keys?active=true`
+    );
 
-  const proposals: Proposal[] = [];
+    const proposals: Proposal[] = [];
 
-  res_.data.forEach((proposal: any) => {
-    proposals.push({
-      ID: proposal.key,
-      title: proposal.value.title,
-      descriptionLink: proposal.value.description_link,
-      lambda: proposal.value.proposal_lambda,
-      upVotes: parseInt(proposal.value.up_votes),
-      downVotes: parseInt(proposal.value.down_votes),
-      voters: proposal.value.voters,
-      handler: proposal.value.handler,
-      status: proposal.value.status,
+    res_.data.forEach((proposal: any) => {
+      proposals.push({
+        ID: proposal.key,
+        title: proposal.value.title,
+        descriptionLink: proposal.value.description_link,
+        lambda: proposal.value.proposal_lambda,
+        upVotes: parseInt(proposal.value.up_votes),
+        downVotes: parseInt(proposal.value.down_votes),
+        voters: proposal.value.voters,
+        handler: proposal.value.handler,
+        status: proposal.value.status,
+      });
     });
-  });
 
-  return proposals;
+    return proposals;
+  } catch (err) {
+    throw err;
+  }
 };

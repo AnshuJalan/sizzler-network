@@ -51,6 +51,6 @@ export const getStats = () => async (dispatch: Dispatch<StatsAction>) => {
       },
     });
   } catch (err) {
-    throw err;
+    console.error(err);
   }
 };

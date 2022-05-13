@@ -6,7 +6,7 @@ import { validateAddress, validateContractAddress } from "@taquito/utils";
 import Button from "../components/Button";
 
 // Hooks
-import { useActions } from "../hooks";
+import { useActions, useTypedSelector } from "../hooks";
 
 // Operations
 import { requestNewTask as requestNewTaskOP } from "../operations/tasks";
@@ -33,6 +33,7 @@ const NewTask = () => {
   const [error, setError] = useState<Error | null>(null);
 
   const { setLoader } = useActions();
+  const { isConnected } = useTypedSelector((state) => state.wallet);
 
   // Verifies inputs and sends relevant operation to the chain
   const requestNewTask = async () => {
@@ -154,7 +155,7 @@ const NewTask = () => {
             )}
           </div>
           <div className="self-center">
-            <Button onClick={requestNewTask}>
+            <Button disabled={!isConnected} onClick={requestNewTask}>
               <div className="px-3 py-2">Request New Task</div>
             </Button>
           </div>

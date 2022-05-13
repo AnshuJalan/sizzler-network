@@ -8,11 +8,15 @@ import { ProposalsAction } from "../actions";
 import { getAllProposals as getAllProposalsAPI } from "../../api/proposals";
 
 export const getAllProposals = () => async (dispatch: Dispatch<ProposalsAction>) => {
-  const proposals = await getAllProposalsAPI();
-  dispatch({
-    type: t.ProposalsActionTypes.GET_ALL_PROPOSALS,
-    payload: {
-      proposals,
-    },
-  });
+  try {
+    const proposals = await getAllProposalsAPI();
+    dispatch({
+      type: t.ProposalsActionTypes.GET_ALL_PROPOSALS,
+      payload: {
+        proposals,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };

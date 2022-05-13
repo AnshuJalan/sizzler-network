@@ -8,11 +8,15 @@ import { TasksAction } from "../actions";
 import { getAllTasks as getAllTasksAPI } from "../../api/tasks";
 
 export const getAllTasks = () => async (dispatch: Dispatch<TasksAction>) => {
-  const tasks = await getAllTasksAPI();
-  dispatch({
-    type: t.TasksActionTypes.GET_ALL_TASKS,
-    payload: {
-      tasks,
-    },
-  });
+  try {
+    const tasks = await getAllTasksAPI();
+    dispatch({
+      type: t.TasksActionTypes.GET_ALL_TASKS,
+      payload: {
+        tasks,
+      },
+    });
+  } catch (err) {
+    console.error(err);
+  }
 };

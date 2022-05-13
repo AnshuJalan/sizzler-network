@@ -11,6 +11,7 @@ import Tasks from "./pages/Tasks";
 import Logs from "./pages/Logs";
 import NewTask from "./pages/NewTask";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Loader from "./components/Loader";
 import Governance from "./pages/Governance";
 import NewProposal from "./pages/NewProposal";
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/bond" element={<Bond />} />
           <Route path="*" element={<Navigate to="/home" />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </div>
   );

@@ -41,7 +41,7 @@ const ProposalCard = ({
 
   const { setLoader } = useActions();
 
-  const { accountPkh } = useTypedSelector((state) => state.wallet);
+  const { accountPkh, isConnected } = useTypedSelector((state) => state.wallet);
 
   const onUpVote = async () => {
     try {
@@ -243,7 +243,7 @@ const ProposalCard = ({
         </div>
       </div>
 
-      {getActionButtons().length !== 0 && (
+      {getActionButtons().length !== 0 && isConnected && (
         <React.Fragment>
           {/* Divider */}
           <div className="bg-label opacity-20 h-0.5" />
