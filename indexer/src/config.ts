@@ -2,21 +2,21 @@ import { Config } from "./types";
 
 export const config: Config = {
   // URLs
-  tzktURL: "https://api.ithacanet.tzkt.io/v1",
-  mongodbURL: "mongodb://localhost:27017/sizzler-network",
+  tzktURL: process.env.TZKT_URL || "https://api.ithacanet.tzkt.io/v1",
+  mongodbURL: process.env.MONGO_DB_URL || "mongodb://localhost:27017/sizzler-network",
 
   // Ports
-  serverPort: 3001,
+  serverPort: process.env.PORT || "3001",
 
   // Bigmap IDs
-  contractToTask: "66360",
-  sizzlers: "66358",
-  deposits: "66357",
-  withdrawals: "66359",
+  contractToTask: process.env.CONTRACT_TO_TASK || "77120",
+  sizzlers: process.env.SIZZLERS || "77118",
+  deposits: process.env.DEPOSITS || "77117",
+  withdrawals: process.env.WITHDRAWALS || "77119",
 
   // Contracts
-  taskManager: "KT1STHzVN5ixVVgZBdVNxButWdEDu6Jdj9hN",
-  sizzlerManager: "KT1HzYUXzhmFq6Lwp7QE53WW3HGtEenzTaGE",
-  sizzleToken: "KT1EAtFSR9jGP9oK7Nm6hXg4Xpmz4iXMXPFx",
-  minter: "KT199pA4ePzYwLkJ3SsJK5pbB5Mn5gamMW8D",
+  taskManager: process.env.TASK_MANAGER || "KT1F8y2x8aBz3jmi3NbBsk7qibm3WQSYnVyZ",
+  sizzlerManager: process.env.SIZZLER_MANAGER || "KT1PbPHZN59VGg1GCHGmPdfCXyWXSC7GohNu",
+  sizzleToken: process.env.SIZZLE_TOKEN || "KT1E6Gg3tsWKaHgHTGGjjwWqqgoAJPkD6EHN",
+  minter: process.env.MINTER || "KT1AAnVMaY6mkbLHa6KDq2T38V8mLADwAxay",
 };

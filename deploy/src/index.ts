@@ -23,15 +23,15 @@ if (deployChoice == 1) {
 // Deploy Managers
 else if (deployChoice == 2) {
   const DECIMALS = 10 ** 18;
-  const SIZZLE_LP_TOKEN = "KT1Ch3zYoytHEG7j8xZxhH6pki7z1yTVMg4p";
+  const SIZZLE_LP_TOKEN = "KT1WpUCeyMJk1na7sPfDaiy8v6ZNh3TP5RWE";
   const SIZZLE_LP_TOKEN_ID = 0;
   const DEPOSIT_DELAY = 300; // 5 minutes
   const WITHDRAW_DELAY = 300;
   const LP_TOKENS_PER_TASK = 1.5 * 10 ** 6;
   const TASK_LIMIT_RESET_PERIOD = 120; // 2 minutes
   const DEV_ADDRESS = "tz1eUzpKnk5gKLYw4HWs2sWsynfbT7ypGxNM";
-  const SIZZLER_RATE = [100 * DECIMALS, 30];
-  const DEV_RATE = [20 * DECIMALS, 30];
+  const SIZZLER_RATE = [5 * DECIMALS, 60];
+  const DEV_RATE = [1 * DECIMALS, 60];
 
   deployManagers({
     admin: ADMIN,
