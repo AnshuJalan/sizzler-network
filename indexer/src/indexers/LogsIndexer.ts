@@ -70,7 +70,7 @@ export class LogsIndexer {
     );
     const fee = fullOperation.reduce((total, op) => total + (op.bakerFee + op.storageFee), 0);
     return {
-      tip: tipOp ? tipOp.parameter.value : 0,
+      tip: tipOp ? tipOp.parameter.value.value : 0,
       sizzleMinted: sizzleMintedOp ? sizzleMintedOp.parameter.value.value : 0,
       fee,
     };

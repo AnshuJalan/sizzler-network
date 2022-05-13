@@ -264,7 +264,7 @@ const Bond = () => {
         </div>
         <div className="flex flex-col items-center gap-y-2 text-lg">
           <div className="text-label">Your Bond Value</div>
-          <div>{sizzler ? `${sizzler?.stake} tQPLP` : "-"}</div>
+          <div>{sizzler && sizzler.stake ? `${sizzler.stake} tQPLP` : "-"}</div>
         </div>
         <div className="flex flex-col items-center gap-y-2 text-lg">
           <div className="text-label">
@@ -276,7 +276,7 @@ const Bond = () => {
               <i className="bi bi-info-circle-fill text-base text-info cursor-pointer"></i>
             </Tooltip>
           </div>
-          <div>{sizzler ? sizzler.taskLimit : "-"}</div>
+          <div>{sizzler && sizzler.taskLimit ? sizzler.taskLimit : "-"}</div>
         </div>
         <div className="flex flex-col items-center gap-y-2 text-lg">
           <div className="text-label">
@@ -292,7 +292,7 @@ const Bond = () => {
               </Tooltip>
             )}
           </div>
-          <div>{sizzler ? sizzler.taskLimit - sizzler.taskCounter : "-"} </div>
+          <div>{sizzler && sizzler.taskLimit ? sizzler.taskLimit - sizzler.taskCounter : "-"} </div>
         </div>
       </div>
       <div className="bg-primary p-3 mx-5 mt-3 mb-8 lg:mx-10 font-medium">

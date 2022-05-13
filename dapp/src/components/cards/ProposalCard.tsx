@@ -123,7 +123,7 @@ const ProposalCard = ({
           </Button>
         );
       }
-    } else if (!voters[accountPkh]) {
+    } else if (status.voting && !voters[accountPkh]) {
       buttons.push(
         <Button onClick={onUpVote}>
           <div className="flex items-center justify-center gap-x-3 px-3 py-1 text-sm">
