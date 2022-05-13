@@ -7,7 +7,7 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "start": "yarn ./build/index.js",
+    "start": "node ./build/index.js",
     "postinstall": "tsc"
   },
   "devDependencies": {
