@@ -17,6 +17,9 @@ module.exports = {
         label: "#888888",
         overlay: "#1E2330",
       },
+      screens: {
+        "3xl": "1600px",
+      },
       keyframes: {
         wiggle: {
           "0%, 100%": { transform: "rotate(-10deg)" },

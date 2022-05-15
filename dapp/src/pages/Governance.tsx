@@ -37,6 +37,12 @@ const Governance = () => {
             <span>All Proposals</span>
           </div>
         </div> */}
+          <div className="flex justify-center items-center font-medium bg-card hover:opacity-80 transition-opacity duration-200 shadow-sm">
+            <div className="flex items-center justify-center gap-x-3 px-3 py-2 text-sm">
+              <i className="bi bi-info-circle-fill text-info" />
+              <span>Showing all proposals</span>
+            </div>
+          </div>
         </div>
         {/* Data */}
         <div className="flex flex-col gap-y-8">

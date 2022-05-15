@@ -33,7 +33,7 @@ const NewTask = () => {
   const [error, setError] = useState<Error | null>(null);
 
   const { setLoader } = useActions();
-  const { isConnected } = useTypedSelector((state) => state.wallet);
+  const { isConnected, sizzler } = useTypedSelector((state) => state.wallet);
 
   // Verifies inputs and sends relevant operation to the chain
   const requestNewTask = async () => {
@@ -155,7 +155,10 @@ const NewTask = () => {
             )}
           </div>
           <div className="self-center">
-            <Button disabled={!isConnected} onClick={requestNewTask}>
+            <Button
+              disabled={!isConnected || !sizzler || !sizzler.taskLimit}
+              onClick={requestNewTask}
+            >
               <div className="px-3 py-2">Request New Task</div>
             </Button>
           </div>

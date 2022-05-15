@@ -37,7 +37,7 @@ export const getAllProposals = async (): Promise<Proposal[]> => {
       });
     });
 
-    return proposals;
+    return proposals.reverse();
   } catch (err) {
     throw err;
   }

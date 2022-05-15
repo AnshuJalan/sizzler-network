@@ -12,6 +12,7 @@ import { useActions, useTypedSelector } from "../hooks";
 import { Status } from "../redux/actions/loader";
 
 // Operations
+import { faucet } from "../operations/faucet";
 import { deposit, confirmDeposit, withdraw, confirmWithdrawal } from "../operations/sizzler";
 
 // Assets
@@ -95,6 +96,19 @@ const Bond = () => {
       await confirmWithdrawal();
 
       setLoader(Status.SUCCESS, "Withdrawal confirmed!");
+    } catch (err: any) {
+      setLoader(Status.FAILURE, err.message);
+    }
+  };
+
+  // On Faucet
+  const onFaucet = async () => {
+    try {
+      setLoader(Status.LOADING, "Getting tQPLP tokens..");
+
+      await faucet();
+
+      setLoader(Status.SUCCESS, "5 tQPLP tokens received!");
     } catch (err: any) {
       setLoader(Status.FAILURE, err.message);
     }
@@ -224,11 +238,13 @@ const Bond = () => {
     <div className="bg-card mx-5 lg:mx-auto mt-44 mb-36 lg:mt-36 lg:w-8/12 text-center \">
       <div className="flex flex-row gap-x-4 items-center justify-evenly bg-secondary p-8 text-white font-semibold">
         <img src={SizzlerHat} alt="sizzler hat" className="w-16 lg:w-20" />
-        <div className="flex flex-col items-center text-center gap-y-3 cursor-pointer">
+        <div className="flex flex-col items-center text-center gap-y-3">
           <div className="text-sm lg:text-2xl">
             Bond LP tokens from Quipuswap's SZL-kUSD Pool to become a Sizzler.
           </div>
-          <div className="border-white border-2 p-2">Learn More</div>
+          <a href="/technical_paper.pdf" target="_blank" rel="noreferrer">
+            <div className="border-white border-2 p-2 cursor-pointer">Learn More</div>
+          </a>
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-y-5 font-medium p-6">
@@ -312,6 +328,12 @@ const Bond = () => {
         </div>
       </div>
       {selected === 0 ? depositSection : withdrawSection}
+      <div onClick={onFaucet} className="text-center text-secondary pb-8 px-5 ">
+        {" "}
+        <span className="hover:underline cursor-pointer">
+          <i className="bi bi-info-circle" /> Click here to get 5 dummy tQPLP tokens on testnet
+        </span>
+      </div>
     </div>
   );
 };

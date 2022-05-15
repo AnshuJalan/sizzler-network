@@ -32,10 +32,10 @@ const Tasks = () => {
               </div>
             </Button>
           </Link>
-          <div className="flex justify-center items-center font-medium bg-card hover:opacity-80 transition-opacity duration-200 cursor-pointer shadow-sm">
+          <div className="flex justify-center items-center font-medium bg-card hover:opacity-80 transition-opacity duration-200 shadow-sm">
             <div className="flex items-center justify-center gap-x-3 px-3 py-2 text-sm">
-              <i className="bi bi-funnel-fill text-info" />
-              <span>All Tasks</span>
+              <i className="bi bi-info-circle-fill text-info" />
+              <span>Showing all tasks</span>
             </div>
           </div>
         </div>

@@ -18,7 +18,7 @@ const Home = () => {
       <div className="min-h-screen flex flex-col items-center gap-y-16 sm:gap-y-20 relative">
         <div
           className={`font-bold text-2xl sm:text-4xl w-10/12 md:w-1/2 text-center ${
-            isConnected ? "mt-48 sm:mt-44" : "mt-44"
+            isConnected ? "mt-48 sm:mt-44 3xl:mt-64" : "mt-44 3xl:mt-64"
           }`}
         >
           Automate recurring smart contract tasks on Tezos by delegating them to S
@@ -91,9 +91,11 @@ const Home = () => {
             </div>
           </div>
           <div className="text-center text-secondary font-semibold mt-6">
-            <span className="hover:opacity-80 cursor-pointer">
-              Learn More <i className="bi bi-box-arrow-up-right" />
-            </span>{" "}
+            <a href="/technical_paper.pdf" target="_blank" rel="noreferrer">
+              <span className="hover:opacity-80 cursor-pointer">
+                Learn More <i className="bi bi-box-arrow-up-right" />
+              </span>{" "}
+            </a>
           </div>
         </div>
         {/* Background */}
