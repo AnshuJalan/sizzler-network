@@ -10,9 +10,15 @@ const Footer = () => {
       </div>
       <i className="hidden sm:block bi bi-dot text-xl text-white"></i>
       <div className="flex gap-4 text-3xl text-white">
-        <i className="bi bi-github cursor-pointer"></i>
-        <i className="bi bi-twitter cursor-pointer"></i>
-        <i className="bi bi-youtube cursor-pointer"></i>
+        <a href="https://github.com/AnshuJalan/sizzler-network" target="_blank" rel="noreferrer">
+          <i className="bi bi-github cursor-pointer"></i>
+        </a>
+        <a href="https://twitter.com/aj_jalan" target="_blank" rel="noreferrer">
+          <i className="bi bi-twitter cursor-pointer"></i>
+        </a>
+        <a href="https://youtu.be/POUpvT9ZVe8" target="_blank" rel="noreferrer">
+          <i className="bi bi-youtube cursor-pointer"></i>
+        </a>
       </div>
     </div>
   );
